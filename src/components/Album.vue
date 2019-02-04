@@ -55,7 +55,6 @@ export default {
     },
     watch: {
         scrollAmount() {
-            console.log('scrolling')
             TweenLite.to(this, 2.5-Math.abs((10-this.index)/10), { ease: Elastic.easeOut.config(1, 0.3), deltaY: this.scrollAmount });
         }
     },

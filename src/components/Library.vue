@@ -2,21 +2,28 @@
     <div id="library" ref="library">
         <header>
             <h1>my library</h1>
-            <h2>albums</h2>
+            <h2>albums {{scrollAmount}}</h2>
         </header>
-        <albums-list :albums="albumsList" :scrollAmount="scrollAmount"></albums-list>
+        <div class="container">
+            <albums-list :albums="albumsList" :scrollAmount="scrollAmount*scrollStrengh"></albums-list>
+            <slider></slider>
+        </div>
+        
     </div>
 </template>
 
 <script>
 import AlbumsList from '@/components/AlbumsList'
-import {TweenMax, Elastic, TimelineLite} from "gsap/TweenMax";
+import Slider from '@/components/Slider'
+import {TweenMax, Elastic, TimelineLite} from "gsap/TweenMax"
 
 export default {
     data() {
         return {
             albumsList: [],
-            scrollAmount:0
+            scrollAmount:0,
+            scrollStrengh: 15,
+            albumDivHeight: 100
         }
     },
     methods: {
@@ -46,13 +53,14 @@ export default {
     },
     mounted() {
         this.$refs.library.addEventListener('wheel',(e)=>{
-            if((this.scrollAmount+Math.sign(e.deltaY)*50 <= 0) && (this.scrollAmount+Math.sign(e.deltaY)*50 >= -(this.albumsList.length-1)*100)) {
-                this.scrollAmount += Math.sign(e.deltaY)*50
+            if((this.scrollAmount+Math.sign(e.deltaY) <= 0) && (this.scrollAmount+Math.sign(e.deltaY) >= -(this.albumsList.length-1)*(this.albumDivHeight/this.scrollStrengh))) {
+                this.scrollAmount += Math.sign(e.deltaY)
             }
         })
     },
     components: {
-        AlbumsList
+        AlbumsList,
+        Slider
     }
 }
 </script>
@@ -82,6 +90,12 @@ export default {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+    }
+
+    .container {
+        height: 100%;
+        overflow: hidden;
+        display: flex;
     }
 }
 </style>

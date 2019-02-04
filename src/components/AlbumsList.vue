@@ -35,7 +35,6 @@ export default {
 
 #albums-list{
     height: 100%;
-    overflow: hidden;
     position: relative;
 
     .gradient{

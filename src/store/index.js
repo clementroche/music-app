@@ -11,7 +11,8 @@ export default new Vuex.Store({
             scrollAmount: 0,
             currentLetterIndex: 0,
             alphabet: '#abcdefghijklmnopqrstuvwxyz',
-            albums: []
+            albums: [],
+            albumsLength: 0
         },
         getters: {
             currentLetterAlphabetIndex(state) {
@@ -25,11 +26,6 @@ export default new Vuex.Store({
             }
         },
         mutations: {
-            addLetter(state, letter) {
-                if(!state.lettersOffset[letter]) {
-                    state.lettersOffset[letter] = 0
-                }
-            },
             updateLetterOffset(state, args) {
                 state.lettersOffset[args.letter] = args.offsetTop
                 state.currentLetterIndex = Object.values(state.lettersOffset).findIndex((element)=>{
@@ -39,8 +35,10 @@ export default new Vuex.Store({
             scroll(state, amount) {
                 state.scrollAmount += amount
             },
-            FETCH_USERS(state, albums) {
-                state.albums = albums.sort(function (a, b) {
+            FETCH_ALBUMS(state, albums) {
+                let orderedAlbums = {}
+                state.albumsLength = albums.length-1
+                albums.sort(function (a, b) {
                     if (a.name.toLowerCase() < b.name.toLowerCase()) {
                         return -1;
                     }
@@ -48,7 +46,20 @@ export default new Vuex.Store({
                         return 1;
                     }
                     return 0;
+                }).forEach((album,index)=>{
+                    album.index = index
+                    let char = album.name.charAt(0).toLowerCase()
+                    if(!state.alphabet.includes(char)) {
+                        char = '#'
+                    }
+                    if(!orderedAlbums[char]) {
+                        orderedAlbums[char] = []
+                    }
+    
+                    orderedAlbums[char].push(album)
+                    
                 })
+                state.albums = orderedAlbums
             }
         },
         actions: {
@@ -57,13 +68,8 @@ export default new Vuex.Store({
                 .then((response) => {
                     response.json()
                     .then((data)=>{
-                        context.commit("FETCH_USERS", data.albums);
-                        // console.log(Object.keys(context.state.lettersOffset)[context.state.currentLetterIndex])
-                        //INIT BUILD LETTERSOFFSER
+                        context.commit("FETCH_ALBUMS", data.albums);
                     })
-                    
-                    
-                    // self.filterUsers(); 
                 })
                 .catch((error => {
                     console.log(error.statusText)

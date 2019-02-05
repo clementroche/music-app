@@ -5,7 +5,7 @@
         <h2>albums {{$store.state.scrollAmount}}</h2>
     </header>
     <div class="container">
-        <albums-list :albums="orderedAlbumsList"></albums-list>
+        <albums-list></albums-list>
         <slider></slider>
     </div>
 
@@ -22,32 +22,7 @@ import {
 } from "gsap/TweenMax"
 
 export default {
-    data() {
-        return {
-            albumsList: [],
-            scrollStrengh: 40,
-            albumDivHeight: 100,
-            scrollControl: 0
-        }
-    },
-    created() {
-        this.$store.dispatch('fetchAlbums')
-        //DELETE THIS, FETCH ALBUM IN ALBUMSLIST.VUE
-    },
-    mounted() {
-        this.$refs.library.addEventListener('wheel', (e) => {
-            
-            if ((this.scrollControl + Math.sign(e.deltaY) <= 0) && (this.scrollControl + Math.sign(e.deltaY) >= -(this.orderedAlbumsList.length - 1) * (this.albumDivHeight / this.scrollStrengh))) {
-                console.log('ok')
-                this.scrollControl += Math.sign(e.deltaY)
-                this.$store.commit('scroll',Math.sign(e.deltaY)*this.scrollStrengh)
-            }
-        })
-    },
     computed: {
-        orderedAlbumsList() {
-            return this.$store.state.albums
-        },
         currentLetter() {
             return this.$store.getters.currentLetter
         }

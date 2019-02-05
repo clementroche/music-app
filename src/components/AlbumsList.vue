@@ -3,9 +3,9 @@
     <div class="gradient"></div>
     <div class="vertical"></div>
     <div class="list">
-    <div class="letter" v-for="(letter,i) in orderedAlbumsList" :key="i" :class="i" ref="letter"> 
-        <album v-for="(album,index) in letter" :key="album.upc" :index="album.index" :album="album" :isLast="(letter.length-1 == index)" :letter="i"></album>
-    </div>   
+        <div class="letter" v-for="(letter,i) in albumsList" :key="i" :class="i" ref="letter">
+            <album v-for="(album,index) in letter" :key="album.upc" :index="album.index" :album="album" :isLast="(letter.length-1 == index)" :letter="i"></album>
+        </div>
     </div>
 </div>
 </template>
@@ -15,39 +15,29 @@ import Album from '@/components/Album'
 
 export default {
     name: 'AlbumsList',
-    props: {
-        albums: {
-            type: Array,
-            required: true
-        }
-    },
     data() {
         return {
-            alphabet: '#abcdefghijklmnopqrstuvwxyz'
+            scrollStrengh: 40,
+            albumDivHeight: 100,
+            scrollControl: 0
         }
     },
     mounted() {
-
+        document.addEventListener('wheel', (e) => {
+            if ((this.scrollControl + Math.sign(e.deltaY) <= 0) && (this.scrollControl + Math.sign(e.deltaY) >= -(this.$store.state.albumsLength) * (this.albumDivHeight / this.scrollStrengh))) {
+                this.scrollControl += Math.sign(e.deltaY)
+                this.$store.commit('scroll', Math.sign(e.deltaY) * this.scrollStrengh)
+            }
+        })
+        console.log(this.$store.state.lettersOffset)
+    },
+    created() {
+        this.$store.dispatch('fetchAlbums')
     },
     computed: {
-        orderedAlbumsList() {
-            let albums = {}
-            this.albums.forEach((album,index)=>{
-                album.index = index
-                let char = album.name.charAt(0).toLowerCase()
-                if(!this.alphabet.includes(char)) {
-                    char = '#'
-                }
-                if(!albums[char]) {
-                    albums[char] = []
-                    this.$store.commit('addLetter',char)
-                }
-
-                albums[char].push(album)
-                
-            })
-            return albums
-        }
+        albumsList() {
+            return this.$store.state.albums
+        },
     },
     components: {
         Album

@@ -1,6 +1,6 @@
 <template>
 <div class="labels">
-    <div class="letter" v-for="letter in alphabet" :key="letter">
+    <div :class="['letter',index == currentLetter ? 'active' : '']" v-for="(letter,index) in alphabet" :key="letter">
         {{letter}}
     </div>
 </div>
@@ -12,6 +12,12 @@ export default {
         return {
             alphabet: '#abcdefghijklmnopqrstuvwxyz'.split('')
         }
+    },
+    computed: {
+        currentLetter (){
+            return this.$store.getters.currentLetterIndex
+        }
+    
     }
 }
 </script>
@@ -31,6 +37,11 @@ export default {
         font-weight: bolder;
         text-transform: uppercase;
         font-size: 0.8rem;
+        text-align: right;
+        
+        &.active {
+            color:red;
+        }
     }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div class="album" :style="translation" ref="album">
+<div :class="['album', isLast ? 'last' : '']" :style="translation" ref="album">
     <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="">
     <div class="meta">
         <div class="name">{{album.name}}</div>
@@ -16,12 +16,16 @@ export default {
             type: Object,
             required: true
         },
-        scrollAmount: {
+        index: {
             type: Number,
             required: true
         },
-        index: {
-            type: Number,
+        isLast: {
+            type: Boolean,
+            required: true
+        },
+        letter: {
+            type: String,
             required: true
         }
     },
@@ -29,7 +33,7 @@ export default {
         return {
             covers: [],
             deltaY: 0,
-            offsetTop:0
+            offsetTop: 0
         }
     },
     methods: {
@@ -52,6 +56,9 @@ export default {
                 .catch((err) => {
                     console.log('Fetch Error :-S', err);
                 });
+        },
+        updateOffset() {
+            this.offsetTop = (this.letter,this.$refs.album.offsetTop+100)+this.scrollAmount
         }
     },
     watch: {
@@ -60,17 +67,30 @@ export default {
                 ease: Elastic.easeOut.config(1, 0.3),
                 deltaY: this.scrollAmount,
                 onUpdate:() => {
-                    this.offsetTop = this.$refs.album.getBoundingClientRect().top
+
+                    if(this.isLast) {
+                        this.updateOffset()
+                    }
+
                 }
             });
+        },
+        offsetTop() {
+            this.$store.commit('updateLetterOffset',{letter: this.letter, offsetTop: this.offsetTop})
         }
     },
     computed: {
+        scrollAmount() {
+            return this.$store.getters.scrollAmount
+        },
         translation() {
             return {
                 transform: `translateY(${this.deltaY}px)`
             }
-        }
+        },
+    },
+    mounted() {
+        this.updateOffset()
     },
     created() {
         this.fetchCover(this.album.links.images.href)

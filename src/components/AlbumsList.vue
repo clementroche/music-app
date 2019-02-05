@@ -4,7 +4,7 @@
     <div class="vertical"></div>
     <div class="list">
     <div class="letter" v-for="(letter,i) in orderedAlbumsList" :key="i" :class="i" ref="letter"> 
-        <album v-for="album in letter" :key="album.upc" :index="album.index" :album="album" :scrollAmount="scrollAmount"></album>
+        <album v-for="(album,index) in letter" :key="album.upc" :index="album.index" :album="album" :isLast="(letter.length-1 == index)" :letter="i"></album>
     </div>   
     </div>
 </div>
@@ -19,16 +19,15 @@ export default {
         albums: {
             type: Array,
             required: true
-        },
-        scrollAmount: {
-            type: Number,
-            required: true
         }
     },
     data() {
         return {
             alphabet: '#abcdefghijklmnopqrstuvwxyz'
         }
+    },
+    mounted() {
+
     },
     computed: {
         orderedAlbumsList() {
@@ -41,29 +40,13 @@ export default {
                 }
                 if(!albums[char]) {
                     albums[char] = []
+                    this.$store.commit('addLetter',char)
                 }
 
                 albums[char].push(album)
                 
             })
             return albums
-        }
-    },
-    updated() {
-        this.$nextTick(()=>{
-            console.log(this.$refs.letter[0].querySelectorAll('.album')[0].getBoundingClientRect().top)
-        })
-    },
-    watch: {
-        scrollAmount(newVal, oldVal) {
-            // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-            // this.$refs.letter.forEach((div)=>{
-            //     console.log((div.offsetTop))
-            // })
-            // console.log(this.$refs.letter[0].querySelectorAll('.album')[0].getBoundingClientRect().top)
-            // let appTop = document.querySelector('#app').offsetTop
-            // console.log(this.$refs.letter[0].querySelectorAll('.album')[0].getBoundingClientRect().top - appTop)
-            // console.log(appTop+100,this.$refs.letter[0].querySelectorAll('.album')[0].getBoundingClientRect().top+100)
         }
     },
     components: {

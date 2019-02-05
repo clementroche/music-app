@@ -22,7 +22,10 @@ export default {
 #slider {
     width: 75px;
     height: 100%;
-    padding-bottom: 16px;
-    padding-top: 16px;
+    max-height: 550px;
+    // padding-bottom: 16px;
+    // padding-top: 16px;
+    position: relative;
+    padding-right: 16px;
 }
 </style>

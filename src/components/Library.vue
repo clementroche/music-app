@@ -1,11 +1,11 @@
 <template>
 <div id="library" ref="library">
     <header>
-        <h1>my library</h1>
-        <h2>albums {{scrollAmount}}</h2>
+        <h1>my library {{currentLetter}} - {{$store.getters.currentLetterIndex}}</h1>
+        <h2>albums {{$store.state.scrollAmount}}</h2>
     </header>
     <div class="container">
-        <albums-list :albums="orderedAlbumsList" :scrollAmount="scrollAmount*scrollStrengh"></albums-list>
+        <albums-list :albums="orderedAlbumsList"></albums-list>
         <slider></slider>
     </div>
 
@@ -25,54 +25,31 @@ export default {
     data() {
         return {
             albumsList: [],
-            scrollAmount: 0,
             scrollStrengh: 40,
-            albumDivHeight: 140
-        }
-    },
-    methods: {
-        fetchAlbumsList() {
-            fetch('http://api.napster.com/v2.2/genres/g.146/albums/top?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk')
-                .then(
-                    (response) => {
-                        if (response.status !== 200) {
-                            console.log('Looks like there was a problem. Status Code: ' +
-                                response.status);
-                            return;
-                        }
-
-                        // Examine the text in the response
-                        response.json().then((data) => {
-                            this.albumsList = data.albums
-                        });
-                    }
-                )
-                .catch((err) => {
-                    console.log('Fetch Error :-S', err);
-                });
+            albumDivHeight: 100,
+            scrollControl: 0
         }
     },
     created() {
-        this.fetchAlbumsList()
+        this.$store.dispatch('fetchAlbums')
+        //DELETE THIS, FETCH ALBUM IN ALBUMSLIST.VUE
     },
     mounted() {
         this.$refs.library.addEventListener('wheel', (e) => {
-            if ((this.scrollAmount + Math.sign(e.deltaY) <= 0) && (this.scrollAmount + Math.sign(e.deltaY) >= -(this.albumsList.length - 1) * (this.albumDivHeight / this.scrollStrengh))) {
-                this.scrollAmount += Math.sign(e.deltaY)
+            
+            if ((this.scrollControl + Math.sign(e.deltaY) <= 0) && (this.scrollControl + Math.sign(e.deltaY) >= -(this.orderedAlbumsList.length - 1) * (this.albumDivHeight / this.scrollStrengh))) {
+                console.log('ok')
+                this.scrollControl += Math.sign(e.deltaY)
+                this.$store.commit('scroll',Math.sign(e.deltaY)*this.scrollStrengh)
             }
         })
     },
     computed: {
         orderedAlbumsList() {
-            return this.albumsList.sort(function (a, b) {
-                if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                    return -1;
-                }
-                if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                    return 1;
-                }
-                return 0;
-            })
+            return this.$store.state.albums
+        },
+        currentLetter() {
+            return this.$store.getters.currentLetter
         }
     },
     components: {

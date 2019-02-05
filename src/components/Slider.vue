@@ -1,8 +1,8 @@
 <template>
-    <div id="slider">
-        <curve-silder></curve-silder>
-        <labels-slider></labels-slider>
-    </div>
+<div id="slider">
+    <curve-silder></curve-silder>
+    <labels-slider></labels-slider>
+</div>
 </template>
 
 <script>
@@ -19,10 +19,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    #slider {
-        width:  75px;
-        height: 100%;
-        padding-bottom: 16px;
-        padding-top: 16px;
-    }
+#slider {
+    width: 75px;
+    height: 100%;
+    padding-bottom: 16px;
+    padding-top: 16px;
+}
 </style>

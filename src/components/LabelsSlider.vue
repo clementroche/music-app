@@ -1,16 +1,16 @@
 <template>
-    <div class="labels">
-        <div class="letter" v-for="letter in alphabet" :key="letter">
-            {{letter}}
-        </div>
+<div class="labels">
+    <div class="letter" v-for="letter in alphabet" :key="letter">
+        {{letter}}
     </div>
+</div>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            alphabet: 'abcdefghijklmnopqrstuvwxyz'.split('')
+            alphabet: '#abcdefghijklmnopqrstuvwxyz'.split('')
         }
     }
 }
@@ -25,6 +25,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     .letter {
         font-family: $title-font;
         font-weight: bolder;
@@ -32,5 +33,4 @@ export default {
         font-size: 0.8rem;
     }
 }
-
 </style>

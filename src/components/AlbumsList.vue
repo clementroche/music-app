@@ -3,15 +3,16 @@
     <div class="gradient"></div>
     <div class="vertical"></div>
     <div class="list">
-        <div class="letter" v-for="(letter,i) in albumsList" :key="i" :class="i" ref="letter">
+        <!-- <div class="letter" v-for="(letter,i) in albumsList" :key="i" :class="i" ref="letter">
             <album v-for="(album,index) in letter" :key="album.upc" :index="album.index" :album="album" :isLast="(letter.length-1 == index)" :letter="i"></album>
-        </div>
+        </div> -->
+        <group-albums  v-for="(letter,index) in albumsList" :key="index" :albums="albumsList[index]" :letter="index"></group-albums>
     </div>
 </div>
 </template>
 
 <script>
-import Album from '@/components/Album'
+import GroupAlbums from '@/components/GroupAlbums'
 
 export default {
     name: 'AlbumsList',
@@ -40,7 +41,7 @@ export default {
         },
     },
     components: {
-        Album
+        GroupAlbums
     }
 }
 </script>

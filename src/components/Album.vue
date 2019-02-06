@@ -1,10 +1,11 @@
 <template>
-<div :class="['album', isLast ? 'last' : '']" :style="translation" ref="album">
+<!-- <div :class="['album', isLast ? 'last' : '']" :style="translation" ref="album"> -->
+<div :class="['album']" :style="translation" ref="album">
     <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="">
     <div class="meta">
         <div class="name">{{album.name}}</div>
-        <div class="artist">{{album.artistName}} - {{index}}</div>
-        <div class="tracks">{{album.trackCount}} tracks {{offsetTop}}</div>
+        <div class="artist">{{album.artistName}}</div>
+        <div class="tracks">{{album.trackCount}} tracks</div>
     </div>
 </div>
 </template>
@@ -16,18 +17,18 @@ export default {
             type: Object,
             required: true
         },
-        index: {
-            type: Number,
-            required: true
-        },
-        isLast: {
-            type: Boolean,
-            required: true
-        },
-        letter: {
-            type: String,
-            required: true
-        }
+        // index: {
+        //     type: Number,
+        //     required: true
+        // },
+        // isLast: {
+        //     type: Boolean,
+        //     required: true
+        // },
+        // letter: {
+        //     type: String,
+        //     required: true
+        // }
     },
     data() {
         return {
@@ -63,21 +64,21 @@ export default {
     },
     watch: {
         scrollAmount() {
-            TweenLite.to(this, 2.5 - Math.abs((10 - this.index) / 10), {
+            TweenLite.to(this, 2.5 - Math.abs((10 - this.album.index) / 10), {
                 ease: Elastic.easeOut.config(1, 0.3),
                 deltaY: this.scrollAmount,
                 onUpdate:() => {
 
-                    if(this.isLast) {
-                        this.updateOffset()
-                    }
+                    // if(this.isLast) {
+                    //     this.updateOffset()
+                    // }
 
                 }
             });
         },
-        offsetTop() {
-            this.$store.commit('updateLetterOffset',{letter: this.letter, offsetTop: this.offsetTop})
-        }
+        // offsetTop() {
+        //     this.$store.commit('updateLetterOffset',{letter: this.letter, offsetTop: this.offsetTop})
+        // }
     },
     computed: {
         scrollAmount() {

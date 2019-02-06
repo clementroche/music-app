@@ -15,25 +15,38 @@ export default new Vuex.Store({
             albumsLength: 0
         },
         getters: {
-            currentLetterAlphabetIndex(state) {
-                return state.alphabet.indexOf(Object.keys(state.lettersOffset)[state.currentLetterIndex])
-            },
-            currentLetter(state) {
-                return Object.keys(state.lettersOffset)[state.currentLetterIndex]
-            },
+            // currentLetterAlphabetIndex(state) {
+            //     return state.alphabet.indexOf(Object.keys(state.lettersOffset)[state.currentLetterIndex])
+            // },
+            // currentLetter(state) {
+            //     return Object.keys(state.lettersOffset)[state.currentLetterIndex]
+            // },
             scrollAmount (state) {
                 return state.scrollAmount
+            },
+            albums(state) {
+                return state.albums
             }
         },
         mutations: {
+            // updateLetterOffset(state, args) {
+            //     state.lettersOffset[args.letter] = args.offsetTop
+            //     state.currentLetterIndex = Object.values(state.lettersOffset).findIndex((element)=>{
+            //         return element >= 0
+            //     })
+            // },
             updateLetterOffset(state, args) {
                 state.lettersOffset[args.letter] = args.offsetTop
-                state.currentLetterIndex = Object.values(state.lettersOffset).findIndex((element)=>{
-                    return element >= 0
-                })
+                // console.log('ok')
             },
             scroll(state, amount) {
-                state.scrollAmount += amount
+                // if((state.scrollAmount + amount)>0) {
+                //     state.scrollAmount = 0
+                // } else {
+                //     state.scrollAmount = Math.max(state.scrollAmount + amount,-1800)
+                // }
+                state.scrollAmount = amount
+                
             },
             FETCH_ALBUMS(state, albums) {
                 let orderedAlbums = {}

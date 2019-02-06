@@ -33,8 +33,7 @@ export default {
     data() {
         return {
             covers: [],
-            deltaY: 0,
-            offsetTop: 0
+            deltaY: 0
         }
     },
     methods: {
@@ -58,16 +57,16 @@ export default {
                     console.log('Fetch Error :-S', err);
                 });
         },
-        updateOffset() {
-            this.offsetTop = (this.letter,this.$refs.album.offsetTop+100)+this.scrollAmount
-        }
+        // updateOffset() {
+        //     this.offsetTop = (this.letter,this.$refs.album.offsetTop+100)+this.scrollAmount
+        // }
     },
     watch: {
         scrollAmount() {
             TweenLite.to(this, 2.5 - Math.abs((10 - this.album.index) / 10), {
                 ease: Elastic.easeOut.config(1, 0.3),
                 deltaY: this.scrollAmount,
-                onUpdate:() => {
+                onUpdate: () => {
 
                     // if(this.isLast) {
                     //     this.updateOffset()
@@ -90,9 +89,9 @@ export default {
             }
         },
     },
-    mounted() {
-        this.updateOffset()
-    },
+    // mounted() {
+    //     this.updateOffset()
+    // },
     created() {
         this.fetchCover(this.album.links.images.href)
     }
@@ -100,8 +99,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/fonts.scss';
-@import '@/assets/vars.scss';
+@import '../assets/fonts.scss';
+@import '../assets/vars.scss';
 
 .album {
     display: flex;

@@ -14,17 +14,17 @@ export default {
         }
     },
     computed: {
-        currentLetter (){
+        currentLetter() {
             return this.$store.getters.currentLetterIndex
         }
-    
+
     }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/fonts.scss';
-@import '@/assets/vars.scss';
+@import '../assets/fonts.scss';
+@import '../assets/vars.scss';
 
 .labels {
     height: 100%;
@@ -38,9 +38,9 @@ export default {
         text-transform: uppercase;
         font-size: 0.8rem;
         text-align: right;
-        
+
         &.active {
-            color:red;
+            color: red;
         }
     }
 }

@@ -35,8 +35,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/fonts.scss';
-@import '@/assets/vars.scss';
+@import '../assets/fonts.scss';
+@import '../assets/vars.scss';
 
 #library {
     height: 100%;

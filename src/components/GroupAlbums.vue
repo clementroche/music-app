@@ -1,15 +1,20 @@
 <template>
-    <div :class="['group',letter]">
-        <album v-for="album in albums" :key="album.upc" :album="album"></album>
-    </div>
+<div :class="['group',letter]" ref="group">
+    <!-- {{letter}} - {{ offsetTop }} -->
+    <album v-for="album in albums" :key="album.upc" :album="album"></album>
+    <!-- {{letter}} - {{ offsetBottom }} -->
+</div>
 </template>
 
 <script>
 import Album from '@/components/Album'
 
 export default {
-    mounted() {
-        console.log(this.letter)
+    data() {
+        return {
+            offsetTop: 0,
+            offsetBottom: 0
+        }
     },
     props: {
         albums: {
@@ -19,6 +24,26 @@ export default {
         letter: {
             type: String,
             required: true
+        }
+    },
+    methods: {
+        updateOffset() {
+            this.offsetTop = (this.$refs.group.offsetTop + 100) + this.scrollAmount
+            this.offsetBottom = this.offsetTop + this.$refs.group.offsetHeight
+            this.$store.commit('updateLetterOffset', {letter: this.letter, offsetTop:this.offsetTop})
+        }
+    },
+    mounted() {
+        this.updateOffset()
+    },
+    watch: {
+        scrollAmount() {
+            this.updateOffset()
+        }
+    },
+    computed: {
+        scrollAmount() {
+            return this.$store.getters.scrollAmount
         }
     },
     components: {

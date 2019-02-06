@@ -64,7 +64,7 @@ export default new Vuex.Store({
         },
         actions: {
             fetchAlbums(context)  {         
-                fetch("http://api.napster.com/v2.2/genres/g.146/albums/top?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk")
+                fetch("https://api.napster.com/v2.2/genres/g.146/albums/top?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk")
                 .then((response) => {
                     response.json()
                     .then((data)=>{

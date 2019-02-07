@@ -30,7 +30,7 @@ export default {
             // if ((this.scrollAmount + Math.sign(e.deltaY) <= 0) && (this.scrollAmount + Math.sign(e.deltaY) >= -this.maxScroll)) {
                 // this.scrollControl = Math.max(this.scrollControl + Math.sign(e.deltaY) * this.scrollStrengh,-1800)
                 // this.$store.commit('scroll', Math.sign(e.deltaY) * this.scrollStrengh)
-                let amount = Math.sign(e.deltaY) * this.scrollStrengh
+                let amount = Math.sign(-e.deltaY) * this.scrollStrengh
                 if((this.scrollAmount + amount)>0) {
                     this.$store.commit('scroll', 0)
                 } else {
@@ -73,6 +73,7 @@ export default {
 #albums-list {
     height: 100%;
     position: relative;
+    border-radius: 16px;
 
     .gradient {
         width: 100%;

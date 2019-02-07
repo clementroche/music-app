@@ -1,6 +1,6 @@
 <template>
 <div id="slider">
-    <curve-silder></curve-silder>
+    <curve-silder :height="550"></curve-silder>
     <labels-slider></labels-slider>
 </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     height: 100%;
     max-height: 550px;
     // padding-bottom: 16px;
-    // padding-top: 16px;
+    // padding-top: 12px;
     position: relative;
     padding-right: 16px;
 }

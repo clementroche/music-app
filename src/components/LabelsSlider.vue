@@ -15,7 +15,7 @@ export default {
     },
     computed: {
         currentLetter() {
-            return this.$store.getters.currentLetterIndex
+            return this.$store.getters.currentLetterAlphabetIndex
         }
 
     }
@@ -31,16 +31,22 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 15px;
+    float: right;
 
     .letter {
+        background: linear-gradient(90deg, $primary-color, $secondary-color);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         font-family: $title-font;
         font-weight: bolder;
         text-transform: uppercase;
         font-size: 0.8rem;
-        text-align: right;
+        text-align: center;
 
         &.active {
-            color: red;
+            font-size: 1.25rem;
+            line-height: 1.25rem;
         }
     }
 }

@@ -1,8 +1,10 @@
 <template>
 <div id="library" ref="library">
     <header>
-        <h1>my library {{currentLetter}} - {{$store.getters.currentLetterIndex}}</h1>
-        <h2>albums {{$store.state.scrollAmount}}</h2>
+        <!-- <h1>my library {{currentLetterIndex}} {{ currentLetter }}</h1>
+        <h2>albums {{$store.state.scrollAmount}}</h2> -->
+        <h1>my library</h1>
+        <h2>albums</h2>
     </header>
     <div class="container">
         <albums-list></albums-list>
@@ -22,10 +24,22 @@ import {
 } from "gsap/TweenMax"
 
 export default {
+    mounted() {
+        setTimeout(()=>{
+            // console.log(Object.values(this.$store.state.lettersOffset))
+        },1)
+        
+    },
     computed: {
         currentLetter() {
             return this.$store.getters.currentLetter
+        },
+        currentLetterIndex() {
+            return this.$store.getters.currentLetterIndex
         }
+        // offsets() {
+        //     return Object.values(this.$store.state.lettersOffset)
+        // }
     },
     components: {
         AlbumsList,

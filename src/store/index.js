@@ -8,6 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
         state: {
             lettersOffset: {},
+            lettersOffsetValues: [],
             scrollAmount: 0,
             currentLetterIndex: 0,
             alphabet: '#abcdefghijklmnopqrstuvwxyz',
@@ -26,6 +27,21 @@ export default new Vuex.Store({
             },
             albums(state) {
                 return state.albums
+            },
+            currentLetterIndex(state) {
+                return state.lettersOffsetValues.findIndex((element)=>{
+                    return element >= 0
+                })
+            },
+            currentLetter(state) {
+                return Object.keys(state.lettersOffset)[state.lettersOffsetValues.findIndex((element)=>{
+                    return element >= 0
+                })]
+            },
+            currentLetterAlphabetIndex(state) {
+                return state.alphabet.indexOf(Object.keys(state.lettersOffset)[state.lettersOffsetValues.findIndex((element)=>{
+                    return element >= 0
+                })])
             }
         },
         mutations: {
@@ -37,7 +53,7 @@ export default new Vuex.Store({
             // },
             updateLetterOffset(state, args) {
                 state.lettersOffset[args.letter] = args.offsetTop
-                // console.log('ok')
+                state.lettersOffsetValues = Object.values(state.lettersOffset)
             },
             scroll(state, amount) {
                 // if((state.scrollAmount + amount)>0) {

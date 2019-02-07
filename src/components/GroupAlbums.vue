@@ -28,9 +28,9 @@ export default {
     },
     methods: {
         updateOffset() {
-            this.offsetTop = (this.$refs.group.offsetTop + 100) + this.scrollAmount
+            this.offsetTop = this.$refs.group.offsetTop + this.scrollAmount
             this.offsetBottom = this.offsetTop + this.$refs.group.offsetHeight
-            this.$store.commit('updateLetterOffset', {letter: this.letter, offsetTop:this.offsetTop})
+            this.$store.commit('updateLetterOffset', {letter: this.letter, offsetTop:this.offsetBottom})
         }
     },
     mounted() {

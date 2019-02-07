@@ -36,6 +36,7 @@ body {
   background-color: $background-color;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  border-radius: 16px;
 }
 /* #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

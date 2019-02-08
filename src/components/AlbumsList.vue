@@ -24,12 +24,14 @@ export default {
             maxScroll:0
         }
     },
+    watch: {
+        maxScroll() {
+            this.$store.commit('updateMaxScroll',-this.maxScroll)
+        }
+    }, 
     methods: {
         onScroll(e) {
             this.maxScroll = this.$refs.list.offsetHeight - 500 - 72
-            // if ((this.scrollAmount + Math.sign(e.deltaY) <= 0) && (this.scrollAmount + Math.sign(e.deltaY) >= -this.maxScroll)) {
-                // this.scrollControl = Math.max(this.scrollControl + Math.sign(e.deltaY) * this.scrollStrengh,-1800)
-                // this.$store.commit('scroll', Math.sign(e.deltaY) * this.scrollStrengh)
                 let amount = Math.sign(-e.deltaY) * this.scrollStrengh
                 if((this.scrollAmount + amount)>0) {
                     this.$store.commit('scroll', 0)
@@ -45,6 +47,9 @@ export default {
             }
             
         })
+        setTimeout(()=>{
+            this.maxScroll = this.$refs.list.offsetHeight - 500 - 72
+        },100)
     },
     beforeDestroy() {
         
@@ -74,6 +79,7 @@ export default {
     height: 100%;
     position: relative;
     border-radius: 16px;
+    max-width: 75%;
 
     .gradient {
         width: 100%;

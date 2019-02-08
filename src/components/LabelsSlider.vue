@@ -27,12 +27,16 @@ export default {
 @import '../assets/vars.scss';
 
 .labels {
-    height: 100%;
+    pointer-events: none;
+    position: relative;
+    top:12px;
+    height: 550px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 15px;
     float: right;
+    right: 16px;
 
     .letter {
         background: linear-gradient(90deg, $primary-color, $secondary-color);

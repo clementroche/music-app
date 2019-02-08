@@ -28,13 +28,17 @@ export default {
     },
     methods: {
         updateOffset() {
-            this.offsetTop = this.$refs.group.offsetTop + this.scrollAmount
+            this.offsetTop = this.$refs.group.offsetTop + this.scrollAmount -36
             this.offsetBottom = this.offsetTop + this.$refs.group.offsetHeight
             this.$store.commit('updateLetterOffset', {letter: this.letter, offsetTop:this.offsetBottom})
         }
     },
     mounted() {
         this.updateOffset()
+        setTimeout(()=>{
+            this.$store.commit('initLetterOffset', {letter: this.letter, offsetTop:this.$refs.group.offsetTop-18})
+        },0)
+        
     },
     watch: {
         scrollAmount() {

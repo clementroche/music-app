@@ -1,19 +1,21 @@
 <template>
-<div id="curve">
-    <div class="cursor" :style="cursor">
-        <div class="middle"></div>
+<div id="curve" ref="curve">
+    <div class="container">
+        <div class="cursor" :style="cursor">
+            <div class="middle"></div>
+        </div>
+        <svg width="46" height="550" xmlns="http://www.w3.org/2000/svg" id="svg" ref="svg">
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop :offset="offset[0] + '%'" stop-color="#ffffff" />
+                    <stop :offset="offset[1] + '%'" stop-color="#5bf1d9" />
+                    <stop :offset="offset[2] + '%'" stop-color="#84f4fb" />
+                    <stop :offset="offset[3] + '%'" stop-color="#ffffff" />
+                </linearGradient>
+            </defs>
+            <path :d="path" stroke-width="3" fill="transparent"  stroke="url(#gradient)" />
+        </svg>
     </div>
-    <svg width="40" height="550" xmlns="http://www.w3.org/2000/svg" id="svg" ref="svg">
-        <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop :offset="offset[0] + '%'" stop-color="#ffffff" />
-                <stop :offset="offset[1] + '%'" stop-color="#5bf1d9" />
-                <stop :offset="offset[2] + '%'" stop-color="#84f4fb" />
-                <stop :offset="offset[3] + '%'" stop-color="#ffffff" />
-            </linearGradient>
-        </defs>
-        <path :d="path" stroke-width="3" fill="transparent"  stroke="url(#gradient)" />
-    </svg>
 </div>
 </template>
 
@@ -34,13 +36,50 @@ export default {
                 [35, 405, 35, 450],
                 [35, 497.5, 35, 825]
             ],
-            delta: -275
+            delta: -275,
+            isDown: false,
+            movingDelta: 0
         }
     },
     props: {
         height: {
             type: Number,
             required: true
+        }
+    },
+    mounted() {
+        if(this.$refs.curve){
+            this.$refs.curve.addEventListener('mousedown',(e)=>{
+                this.isDown=true
+                console.log('down')
+            })
+
+            this.$refs.curve.addEventListener('mousemove',(e)=>{
+                if(this.isDown){
+                    console.log('moove')
+                    this.changeLetter(e.offsetY-12)
+                    // this.movingDelta = e.offsetY
+                    console.log(this.deltaD)
+                }
+            })
+
+            this.$refs.curve.addEventListener('mouseup',(e)=>{
+                this.isDown=false
+                console.log('up')
+                this.movingDelta = 0
+                this.changeLetter(e.offsetY-12)
+            })
+
+            this.$refs.curve.addEventListener('click',(e)=>{
+                console.log('click')
+                this.changeLetter(e.offsetY-12)
+            })
+        }
+    },
+    methods: {
+        changeLetter(value) {
+            let index = Math.round(map_range(value,0,this.height,0,26))
+            this.$store.commit('changeLetter',index)
         }
     },
     computed: {
@@ -61,13 +100,13 @@ export default {
             }
         },
 		range() {
-			return 50-((275 -this.deltaD) / 550) * 100 / 2;
+			return 50-(((this.height/2) -this.deltaD) / this.height) * 100 / 2;
         },
         offset() {
             return [50 - this.range,58 - this.range,92 - this.range,100 - this.range];
         },
         deltaD() {
-            return Math.max(-this.height/2, this.delta)
+            return Math.max(-this.height/2, this.delta)+this.movingDelta
         }
     },
     watch: {
@@ -89,6 +128,15 @@ export default {
     position: absolute;
     top: 0px;
     left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    .container {
+        position: absolute;
+        right: 28px;
+        top:12px;
+        pointer-events: none;
+    }
 
     .cursor{
         height: 24px;

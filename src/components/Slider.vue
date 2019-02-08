@@ -20,12 +20,13 @@ export default {
 
 <style lang="scss" scoped>
 #slider {
-    width: 75px;
+    width: 50%;
     height: 100%;
-    max-height: 550px;
+    // max-height: 550px;
     // padding-bottom: 16px;
     // padding-top: 12px;
-    position: relative;
-    padding-right: 16px;
+    position: absolute;
+    right: 0px;
+    // padding-right: 16px;
 }
 </style>

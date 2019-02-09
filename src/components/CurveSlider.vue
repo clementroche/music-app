@@ -4,7 +4,7 @@
         <div class="cursor" :style="cursor">
             <div class="middle"></div>
         </div>
-        <svg width="46" height="550" xmlns="http://www.w3.org/2000/svg" id="svg" ref="svg">
+        <svg width="46" :height="height" xmlns="http://www.w3.org/2000/svg" id="svg" ref="svg">
             <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop :offset="offset[0] + '%'" stop-color="#ffffff" />
@@ -78,7 +78,7 @@ export default {
     },
     methods: {
         changeLetter(value) {
-            let index = Math.round(map_range(value,0,this.height,0,26))
+            let index = Math.round(map_range(value,0,(this.height-50),0,26))
             this.$store.commit('changeLetter',index)
         }
     },
@@ -95,23 +95,23 @@ export default {
         },
         cursor() {
             return {
-                top: this.points[3][3] + this.deltaD+'px',
+                top: this.points[3][3] + this.deltaD-4+'px',
                 left: this.points[3][0] - 12+'px'
             }
         },
 		range() {
-			return 50-(((this.height/2) -this.deltaD) / this.height) * 100 / 2;
+			return 50-((((this.height-40)/2) -this.deltaD) / (this.height-40)) * 100 / 2;
         },
         offset() {
             return [50 - this.range,58 - this.range,92 - this.range,100 - this.range];
         },
         deltaD() {
-            return Math.max(-this.height/2, this.delta)+this.movingDelta
+            return this.delta+this.movingDelta
         }
     },
     watch: {
         current() {
-            let d = map_range(this.current, 0, 27, -this.height / 2, this.height / 2)
+            let d = map_range(this.current, 0, 27, -(this.height-50) / 2, (this.height-50) / 2)
             TweenLite.to(this, 1.5, {
                 ease: Elastic.easeOut.config(1.5, 0.3),
                 delta: d

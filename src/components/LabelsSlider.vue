@@ -29,8 +29,8 @@ export default {
 .labels {
     pointer-events: none;
     position: relative;
-    top:12px;
-    height: 550px;
+    top:36px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -46,11 +46,13 @@ export default {
         font-weight: bolder;
         text-transform: uppercase;
         font-size: 0.8rem;
+        line-height: 0.8rem;
         text-align: center;
 
         &.active {
-            font-size: 1.25rem;
-            line-height: 1.25rem;
+            // font-size: 1.25rem;
+            // line-height: 1.25rem;
+            transform: scale(1.75) translateX(-1px)
         }
     }
 }

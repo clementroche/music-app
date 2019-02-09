@@ -94,7 +94,7 @@ export default {
     .vertical {
         height: 100%;
         width: 3px;
-        left: calc(16px + 50px);
+        left: calc(16px + 40px);
         position: absolute;
         z-index: 0;
         background: linear-gradient(hsla(0, 0%, 100%, .001), $primary-color 5%, $secondary-color 95%, hsla(0, 0%, 100%, .001));

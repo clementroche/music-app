@@ -53,17 +53,19 @@ export default {
 @import '../assets/vars.scss';
 
 #library {
-    height: 100%;
+    height: calc(100% - 52px);
     display: flex;
     flex-direction: column;
 
     header {
-        padding: 8px 16px;
+        padding: 0px 16px 8px;
 
         h1 {
             font-family: $title-font;
             font-weight: bolder;
             text-transform: uppercase;
+            line-height: 1.9rem;
+            font-size: 1.7rem;
         }
 
         h2 {
@@ -72,6 +74,7 @@ export default {
             background: linear-gradient(180deg, $primary-color, $secondary-color);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-size: 1.3rem;
         }
     }
 

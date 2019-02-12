@@ -1,10 +1,8 @@
 <template>
 <div id="library" ref="library">
     <header>
-        <!-- <h1>my library {{currentLetterIndex}} {{ currentLetter }}</h1>
-        <h2>albums {{$store.state.scrollAmount}}</h2> -->
-        <h1>my library</h1>
-        <h2>albums</h2>
+        <h1 :style="title">my library</h1>
+        <h2 :style="subtitle">albums</h2>
     </header>
     <div class="container">
         <albums-list></albums-list>
@@ -24,11 +22,38 @@ import {
 } from "gsap/TweenMax"
 
 export default {
+    data() {
+        return {
+            titleY: 16,
+            titleOpacity: 0,
+            subtitleY: 16,
+            subtitleOpacity: 0
+        }
+    },
     mounted() {
-        setTimeout(()=>{
-            // console.log(Object.values(this.$store.state.lettersOffset))
-        },1)
-        
+        TweenLite.to(this, 1.5, {
+            ease: Elastic.easeOut.config(1.2, 0.3),
+            delay: 0.75,
+            titleY: 0,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Power3.easeOut,
+            delay: 0.75,
+            titleOpacity: 1,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Elastic.easeOut.config(1.2, 0.3),
+            delay: 1,
+            subtitleY: 0,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Power3.easeOut,
+            delay: 1,
+            subtitleOpacity: 1,
+        });
     },
     computed: {
         currentLetter() {
@@ -36,10 +61,19 @@ export default {
         },
         currentLetterIndex() {
             return this.$store.getters.currentLetterIndex
+        },
+        title() {
+            return {
+                transform: `translateY(${this.titleY}px)`,
+                opacity: this.titleOpacity
+            }
+        },
+        subtitle() {
+            return {
+                transform: `translateY(${this.subtitleY}px)`,
+                opacity: this.subtitleOpacity
+            }
         }
-        // offsets() {
-        //     return Object.values(this.$store.state.lettersOffset)
-        // }
     },
     components: {
         AlbumsList,

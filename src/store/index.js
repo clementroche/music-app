@@ -15,15 +15,10 @@ export default new Vuex.Store({
             alphabet: '#abcdefghijklmnopqrstuvwxyz',
             albums: [],
             albumsLength: 0,
-            maxScroll: 0
+            maxScroll: 0,
+            player: {}
         },
         getters: {
-            // currentLetterAlphabetIndex(state) {
-            //     return state.alphabet.indexOf(Object.keys(state.lettersOffset)[state.currentLetterIndex])
-            // },
-            // currentLetter(state) {
-            //     return Object.keys(state.lettersOffset)[state.currentLetterIndex]
-            // },
             scrollAmount (state) {
                 return state.scrollAmount
             },
@@ -91,10 +86,17 @@ export default new Vuex.Store({
                     
                 })
                 state.albums = orderedAlbums
+            },
+            FETCH_ALBUM_DATA(state,album) {
+                state.player.current = album
+            },
+            FETCH_ALBUM_TRACKS(state, tracks) {
+                state.player.current.tracks = tracks
+                console.log(state.player.current)
             }
         },
         actions: {
-            fetchAlbums(context)  {         
+            fetchAlbums(context) {         
                 fetch("https://api.napster.com/v2.2/genres/g.146/albums/top?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk")
                 .then((response) => {
                     response.json()
@@ -105,6 +107,30 @@ export default new Vuex.Store({
                 .catch((error => {
                     console.log(error.statusText)
                 }))
+            },
+            fetchAlbumData(context,id) {
+                fetch(`https://api.napster.com/v2.2/albums/${id}?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk`)
+                .then((response) => {
+                    response.json()
+                    .then((data)=>{
+                        // console.log(data.albums[0])
+                        context.commit('FETCH_ALBUM_DATA', data.albums[0])
+                        fetch(`https://api.napster.com/v2.2/albums/${id}/tracks?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk`)
+                        .then((response) => {
+                            response.json()
+                            .then((data)=>{
+                                // console.log(data.tracks)
+                                context.commit('FETCH_ALBUM_TRACKS', data.tracks)
+                            })
+                        })
+                        .catch((error) => {
+                            console.log(error.statusText)
+                        })
+                    })
+                })
+                .catch((error) => {
+                    console.log(error.statusText)
+                })
             }
         }
     })

@@ -1,8 +1,6 @@
 <template>
 <div :class="['group',letter]" ref="group">
-    <!-- {{letter}} - {{ offsetTop }} -->
-    <album v-for="album in albums" :key="album.upc" :album="album"></album>
-    <!-- {{letter}} - {{ offsetBottom }} -->
+    <album v-for="album in albums" :key="album.upc" :album="album" :id="album.upc"></album>
 </div>
 </template>
 

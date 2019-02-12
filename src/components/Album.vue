@@ -1,13 +1,12 @@
 <template>
-<!-- <div :class="['album', isLast ? 'last' : '']" :style="translation" ref="album"> -->
-<div :class="['album']" :style="translation" ref="album">
+<router-link :to="{ name: 'Player', params: { id: album.id,data: data }}" :class="['album']" :style="translation" ref="album">
     <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="">
     <div class="meta">
         <div class="name">{{album.name}}</div>
         <div class="artist">{{album.artistName}}</div>
         <div class="tracks">{{album.trackCount}} tracks</div>
     </div>
-</div>
+</router-link>
 </template>
 
 <script>
@@ -17,6 +16,10 @@ export default {
             type: Object,
             required: true
         },
+        id: {
+            type: String,
+            required: true
+        }
     },
     data() {
         return {
@@ -28,6 +31,7 @@ export default {
     },
     methods: {
         fetchCover(url) {
+            console.log(this.album)
             fetch(url + '?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk')
                 .then(
                     (response) => {
@@ -66,11 +70,18 @@ export default {
                 opacity: this.opacity
             }
         },
+        data() {
+            return {
+                covers: this.covers,
+                title: this.album.name,
+                artist: this.album.artistName
+            }
+        }
     },
     mounted() {
             TweenLite.to(this, 1.5, {
-                ease: Elastic.easeOut.config(1, 0.4),
-                delay: 1+this.album.index/6,
+                ease: Elastic.easeOut.config(1, 0.5),
+                delay: 1+this.album.index/10,
                 appearY: 0,
             });
 
@@ -94,6 +105,7 @@ export default {
     display: flex;
     margin: 20px 0;
     z-index: 2;
+    text-decoration: none;
 
     .cover {
         height: 80px;
@@ -109,12 +121,15 @@ export default {
             font-family: $title-font;
             font-weight: bolder;
             font-size: 1.1rem;
+            color: #000;
         }
 
         .artist {
             font-family: $title-font;
             font-weight: normal;
             font-size: 1rem;
+            color: #000;
+            text-decoration: none;
         }
 
         .tracks {

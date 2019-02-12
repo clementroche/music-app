@@ -1,23 +1,33 @@
 <template>
 <div class="labels">
-    <div :class="['letter',index == currentLetter ? 'active' : '']" v-for="(letter,index) in alphabet" :key="letter">
-        {{letter}}
+    <div v-for="(letter,index) in alphabet" :key="letter">
+        <letter-labels :letter="letter" :index="index" :active="index == currentLetter"></letter-labels>
     </div>
 </div>
 </template>
 
 <script>
+import LetterLabels from '@/components/LetterLabels'
+
 export default {
     data() {
         return {
-            alphabet: '#abcdefghijklmnopqrstuvwxyz'.split('')
+            alphabet: '#abcdefghijklmnopqrstuvwxyz'.split(''),
+            // right: 32,
+            // opacity: 0
         }
     },
     computed: {
         currentLetter() {
             return this.$store.getters.currentLetterAlphabetIndex
-        }
+        },
 
+    },
+    mounted() {
+
+    },
+    components: {
+        LetterLabels
     }
 }
 </script>
@@ -38,22 +48,6 @@ export default {
     float: right;
     right: 16px;
 
-    .letter {
-        background: linear-gradient(90deg, $primary-color, $secondary-color);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-family: $title-font;
-        font-weight: bolder;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        line-height: 0.8rem;
-        text-align: center;
 
-        &.active {
-            // font-size: 1.25rem;
-            // line-height: 1.25rem;
-            transform: scale(1.75) translateX(-1px)
-        }
-    }
 }
 </style>

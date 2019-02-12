@@ -1,5 +1,5 @@
 <template>
-<div id="curve" ref="curve">
+<div id="curve" ref="curve" :style="curve">
     <div class="container">
         <div class="cursor" :style="cursor">
             <div class="middle"></div>
@@ -38,7 +38,9 @@ export default {
             ],
             delta: -275,
             isDown: false,
-            movingDelta: 0
+            movingDelta: 0,
+            opacity: 0,
+            heightAnimation: 0
         }
     },
     props: {
@@ -75,6 +77,19 @@ export default {
                 this.changeLetter(e.offsetY-12)
             })
         }
+
+        TweenLite.to(this, 1, {
+                ease: Power3.easeOut,
+                delay: 0.75,
+                opacity: 1,
+                
+            });
+
+            TweenLite.to(this, 1, {
+                ease: Power3.easeOut,
+                delay: 1.5,
+                heightAnimation: this.height,
+            });
     },
     methods: {
         changeLetter(value) {
@@ -107,6 +122,12 @@ export default {
         },
         deltaD() {
             return this.delta+this.movingDelta
+        },
+        curve() {
+            return {
+                opacity: this.opacity,
+                height: this.heightAnimation + 'px'
+            }
         }
     },
     watch: {
@@ -131,6 +152,7 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 5;
+    overflow: hidden;
     .container {
         position: absolute;
         right: 28px;

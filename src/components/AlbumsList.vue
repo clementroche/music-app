@@ -1,11 +1,8 @@
 <template>
 <div id="albums-list">
     <div class="gradient"></div>
-    <div class="vertical"></div>
+    <div class="vertical" :style="vertical"></div>
     <div class="list" ref="list">
-        <!-- <div class="letter" v-for="(letter,i) in albumsList" :key="i" :class="i" ref="letter">
-            <album v-for="(album,index) in letter" :key="album.upc" :index="album.index" :album="album" :isLast="(letter.length-1 == index)" :letter="i"></album>
-        </div> -->
         <group-albums ref="group" v-for="(letter,index) in albumsList" :key="index" :albums="albumsList[index]" :letter="index"></group-albums>
     </div>
 </div>
@@ -21,7 +18,8 @@ export default {
             scrollStrengh: 42,
             // albumDivHeight: 100,
             scrollControl: 0,
-            maxScroll:0
+            maxScroll:0,
+            height: 0
         }
     },
     watch: {
@@ -50,6 +48,12 @@ export default {
         setTimeout(()=>{
             this.maxScroll = this.$refs.list.offsetHeight - 500 - 72
         },100)
+
+        TweenLite.to(this, 0.75, {
+            ease: Power3.easeOut,
+            delay: 0.75,
+            height: 100
+        });
     },
     beforeDestroy() {
         
@@ -63,6 +67,11 @@ export default {
         },
         scrollAmount() {
             return this.$store.getters.scrollAmount
+        },
+        vertical() {
+            return {
+                height: this.height + '%'
+            }
         }
     },
     components: {
@@ -95,6 +104,7 @@ export default {
         height: 100%;
         width: 3px;
         left: calc(16px + 40px);
+        bottom: 0px;
         position: absolute;
         z-index: 0;
         background: linear-gradient(hsla(0, 0%, 100%, .001), $primary-color 5%, $secondary-color 95%, hsla(0, 0%, 100%, .001));

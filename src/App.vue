@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
-    <div id="menu">
+    <div id="menu" :style="menu">
       <img src="./assets/icons/menu.svg" alt="">
       <img src="./assets/icons/search.svg" alt="">
     </div>
@@ -11,7 +11,34 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      opacity: 0,
+      menuY: 32
+    }
+  },
+  mounted() {
+        TweenLite.to(this, 1.5, {
+            ease: Elastic.easeOut.config(1.2, 0.3),
+            // delay: 0.5,
+            menuY: 0,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Power3.easeOut,
+            // delay: 0.5,
+            opacity: 1,
+        });
+  },
+  computed: {
+    menu() {
+      return {
+        opacity: this.opacity,
+        transform: `translateY(${this.menuY}px)`
+      }
+    }
+  },
 }
 </script>
 

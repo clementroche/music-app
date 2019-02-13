@@ -2,9 +2,9 @@
 <router-link :to="{ name: 'Player', params: { id: album.id,data: data }}" :class="['album']" :style="translation" ref="album">
     <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="">
     <div class="meta">
-        <div class="name">{{album.name}}</div>
-        <div class="artist">{{album.artistName}}</div>
-        <div class="tracks">{{album.trackCount}} tracks</div>
+        <div class="name" :style="name">{{album.name}}</div>
+        <div class="artist" :style="artist">{{album.artistName}}</div>
+        <div class="tracks" :style="tracks">{{album.trackCount}} tracks</div>
     </div>
 </router-link>
 </template>
@@ -26,12 +26,16 @@ export default {
             covers: [],
             deltaY: 0,
             appearY: -250,
-            opacity:0
+            opacity: 0,
+            nameY: 16,
+            nameOpacity: 0,
+            artistY: 16,
+            artistOpacity: 0,
+            tracksOpacity:0
         }
     },
     methods: {
         fetchCover(url) {
-            console.log(this.album)
             fetch(url + '?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk')
                 .then(
                     (response) => {
@@ -76,20 +80,67 @@ export default {
                 title: this.album.name,
                 artist: this.album.artistName
             }
+        },
+        name() {
+            return {
+                transform: `translateY(${this.nameY}px)`,
+                opacity: this.nameOpacity
+            }
+        },
+        artist() {
+            return {
+                transform: `translateY(${this.artistY}px)`,
+                opacity: this.artistOpacity
+            }
+        },
+        tracks() {
+            return {
+                opacity: this.tracksOpacity
+            }
         }
     },
     mounted() {
-            TweenLite.to(this, 1.5, {
-                ease: Elastic.easeOut.config(1, 0.5),
-                delay: 1+this.album.index/10,
-                appearY: 0,
-            });
+        TweenLite.to(this, 1.5, {
+            ease: Elastic.easeOut.config(1, 0.5),
+            delay: 1 + this.album.index / 10,
+            appearY: 0,
+        });
 
-            TweenLite.to(this, 1, {
-                ease: Power3.easeOut,
-                delay: 1+this.album.index/6,
-                opacity: 1
-            });
+        TweenLite.to(this, 1, {
+            ease: Power3.easeOut,
+            delay: 1 + this.album.index / 6,
+            opacity: 1
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Elastic.easeOut.config(1.2, 0.3),
+            delay: 1.5,
+            nameY: 0,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Power3.easeOut,
+            delay: 1.5,
+            nameOpacity: 1,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Elastic.easeOut.config(1.2, 0.3),
+            delay: 1.75,
+            artistY: 0,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Power3.easeOut,
+            delay: 1.75,
+            artistOpacity: 1,
+        });
+
+        TweenLite.to(this, 1.5, {
+            ease: Power3.easeOut,
+            delay: 1.75,
+            tracksOpacity: 1,
+        });
     },
     created() {
         this.fetchCover(this.album.links.images.href)
@@ -111,7 +162,7 @@ export default {
         height: 80px;
         width: 80px;
         border-radius: 8px;
-        box-shadow: $shadow;
+        box-shadow: $soft-shadow;
     }
 
     .meta {

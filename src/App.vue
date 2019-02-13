@@ -79,6 +79,7 @@ body {
   border-radius: 16px;
   display: flex;
   flex-direction: column;
+  box-shadow: $hard-shadow;
 }
 /* #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

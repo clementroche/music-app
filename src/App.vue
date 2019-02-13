@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/vars.scss';
+@import './assets/vars.scss';
 
 *{
   margin: 0;

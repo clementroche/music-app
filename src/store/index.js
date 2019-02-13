@@ -16,7 +16,18 @@ export default new Vuex.Store({
             albums: [],
             albumsLength: 0,
             maxScroll: 0,
-            player: {}
+            player: {
+                current: {
+                    name: null,
+                    artistName: null,
+                    tracks: null,
+                    links: {
+                        images:{
+                            href: null
+                        }
+                    }
+                }
+            }
         },
         getters: {
             scrollAmount (state) {
@@ -39,6 +50,9 @@ export default new Vuex.Store({
                 return state.alphabet.indexOf(Object.keys(state.lettersOffset)[state.lettersOffsetValues.findIndex((element)=>{
                     return element >= 0
                 })])
+            },
+            currentAlbum(state) {
+                return state.player.current
             }
         },
         mutations: {
@@ -92,7 +106,7 @@ export default new Vuex.Store({
             },
             FETCH_ALBUM_TRACKS(state, tracks) {
                 state.player.current.tracks = tracks
-                console.log(state.player.current)
+                
             }
         },
         actions: {

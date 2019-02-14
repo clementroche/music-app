@@ -60,6 +60,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/fonts.scss';
+@import '../assets/vars.scss';
     #cover {
         display: flex;
         padding: 0 16px;
@@ -70,6 +72,7 @@ export default {
             img {
                 border-radius: 16px;
                 width: 100%;
+                box-shadow: $soft-shadow;
             }
         }
     }

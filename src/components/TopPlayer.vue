@@ -5,11 +5,18 @@
             <h2>{{album.artistName}}</h2>
         </header>
         <cover :album="album"></cover>
+        <actions-player></actions-player>
+        <actions-album></actions-album>
+        <player-slider></player-slider>
     </div>
 </template>
 
 <script>
 import Cover from '@/components/Cover'
+import ActionsPlayer from '@/components/ActionsPlayer'
+import ActionsAlbum from '@/components/ActionsAlbum'
+import PlayerSlider from '@/components/PlayerSlider'
+
 export default {
     computed: {
         album() {
@@ -17,7 +24,10 @@ export default {
         }
     },
     components: {
-        Cover
+        Cover,
+        ActionsPlayer,
+        ActionsAlbum,
+        PlayerSlider
     }
 }
 </script>

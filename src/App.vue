@@ -80,6 +80,7 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: $hard-shadow;
+  overflow: hidden;
 }
 /* #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

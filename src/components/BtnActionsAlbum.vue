@@ -57,7 +57,7 @@ export default {
             margin-top: 8px;
             font-family: $subtitle-font;
             color: $text-secondary-color;
-            font-weight: 800;
+            font-weight: 600;
             font-size: 0.8rem;
             
             &:first-letter {

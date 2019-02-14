@@ -1,17 +1,21 @@
 <template>
     <div id="player">
-        <top-player></top-player>
+        <top-player id="top"></top-player>
+        <bottom-player id="bottom"></bottom-player>
     </div>
 </template>
 
 <script>
 import TopPlayer from '@/components/TopPlayer'
+import BottomPlayer from '@/components/BottomPlayer'
 export default {
     created() {
         this.$store.dispatch('fetchAlbumData',this.$route.params.id)
+        this.$store.dispatch('fetchAlbumTracks',this.$route.params.id)
     },
     components: {
-        TopPlayer
+        TopPlayer,
+        BottomPlayer
     }
 }
 </script>

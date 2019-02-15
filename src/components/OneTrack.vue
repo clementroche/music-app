@@ -1,8 +1,8 @@
 <template>
-    <div class="track">
+    <div :class="['track',isPlayingTrack ? 'playing' : '']" @click="setPlayingTrack(track.index)">
         <div class="index">{{ track.index }}</div>
         <div class="name">{{ track.name }}</div>
-        <div class="duration">{{ parseInt(track.playbackSeconds/60) + ':' + track.playbackSeconds % 60 }}</div>
+        <div class="duration">{{ track.playbackSeconds | minutes }}</div>
     </div>
 </template>
 
@@ -14,8 +14,28 @@ export default {
             required: true
         }
     },
+    methods: {
+        setPlayingTrack(index) {
+            this.$store.commit('setPlayingTrack',index)
+        }
+    },
+    computed: {
+        isPlayingTrack() {
+            return Boolean(this.track.index === this.$store.getters.playingTrack)
+        }
+    },
+    filters: {
+        minutes(seconds) {
+            let m = parseInt(seconds/60)
+            let s = seconds % 60
+            if(s.toString().length < 2) {
+                s+='0'
+            }
+            return m + ':' + s
+        }
+    },
     mounted() {
-        console.log(this.track)
+        // console.log(this.track)
     }
 }
 </script>
@@ -29,6 +49,13 @@ export default {
     border-bottom: 1px solid $text-secondary-color;
     padding: 8px 0px;
     font-size: 0.8rem;
+    cursor: pointer;
+
+    &.playing {
+        background: linear-gradient(180deg, #5bf1d9, #84f4fb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
     
     >div {
         font-family: $subtitle-font;

@@ -23,5 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+    #tracks {
+        margin-top: 16px;
+    }
 </style>

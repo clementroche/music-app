@@ -27,6 +27,8 @@ export default new Vuex.Store({
                     }
                 },
                 currentTracks: [],
+                playingTrack: 1,
+                isPlaying: false
             }
         },
         getters: {
@@ -56,6 +58,19 @@ export default new Vuex.Store({
             },
             currentTracks(state) {
                 return state.player.currentTracks
+            },
+            playingTrack(state) {
+                return state.player.playingTrack
+            },
+            playingTrackURL(state) {
+                if(!!state.player.currentTracks[state.player.playingTrack]) {
+                    return state.player.currentTracks[state.player.playingTrack].prewiewURL
+                } else {
+                    return undefined
+                }
+            },
+            isPlaying(state) {
+                return state.player.isPlaying
             }
         },
         mutations: {
@@ -77,6 +92,21 @@ export default new Vuex.Store({
             },
             updateMaxScroll(state,value) {
                 state.maxScroll = value
+            },
+            setPlayingTrack(state, index) {
+                state.player.playingTrack = index
+            },
+            toggleIsPlaying(state) {
+                state.player.isPlaying = !state.player.isPlaying
+            },
+            updateTrack(state,value) {
+                if(state.player.playingTrack + value > state.player.currentTracks.length-1) {
+                    state.player.playingTrack = 1
+                } else if(state.player.playingTrack + value <= 0){
+                    state.player.playingTrack = state.player.currentTracks.length-1
+                } else {
+                    state.player.playingTrack += value
+                }
             },
             FETCH_ALBUMS(state, albums) {
                 let orderedAlbums = {}

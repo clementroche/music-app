@@ -46,7 +46,7 @@ export default {
             font-weight: 700;
             font-size: 0.8rem;
             display: flex;
-            margin: 4px 0;
+            margin: 5px;
             
             div {
                 margin: auto;

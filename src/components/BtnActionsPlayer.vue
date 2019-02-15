@@ -1,5 +1,5 @@
 <template>
-    <div :class="['btn',isPlayButton ? 'playpause' : '']">
+    <div :class="['btn',isPlayButton ? 'playpause' : '']" @click="onClick">
         <div class="border"></div>
         <div class="background"></div>
         <div class="icon">
@@ -18,6 +18,11 @@ export default {
         icon: {
             type: String,
             required: true
+        }
+    },
+    methods: {
+        onClick() {
+            this.$emit('triggered')
         }
     }
 }

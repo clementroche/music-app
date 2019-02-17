@@ -26,6 +26,7 @@ export default new Vuex.Store({
                         }
                     }
                 },
+                scroll:0,
                 currentTracks: [],
                 playingTrack: 1,
                 isPlaying: false,
@@ -79,6 +80,9 @@ export default new Vuex.Store({
             },
             currentTimeFromSlider(state) {
                 return state.player.currentTimeFromSlider
+            },
+            playerScroll(state) {
+                return state.player.scroll
             }
         },
         mutations: {
@@ -91,6 +95,9 @@ export default new Vuex.Store({
             },
             scroll(state, amount) {
                 state.scrollAmount = amount
+            },
+            playerScroll(state,amount) {
+                state.player.scroll = amount
             },
             changeLetter(state,value) {
                 let char = state.alphabet.charAt(value)

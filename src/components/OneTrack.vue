@@ -1,5 +1,5 @@
 <template>
-    <div :class="['track',isPlayingTrack ? 'playing' : '']" @click="setPlayingTrack(track.index)">
+    <div :class="['track',isPlayingTrack ? 'playing' : '']" @click="setPlayingTrack(track.index)" :style="elastic">
         <div class="index">{{ track.index }}</div>
         <div class="name">{{ track.name }}</div>
         <div class="duration">{{ track.playbackSeconds | minutes }}</div>
@@ -12,6 +12,15 @@ export default {
         track: {
             type: Object,
             required: true
+        },
+        index : {
+            type: Number,
+            required: true
+        }
+    },
+    data() {
+        return {
+            deltaY: 0
         }
     },
     methods: {
@@ -21,9 +30,25 @@ export default {
             
         }
     },
+    watch: {
+        playerScroll() {
+            TweenLite.to(this, 2.5 - Math.abs((10 - this.index) / 10), {
+                ease: Elastic.easeOut.config(1, 0.3),
+                deltaY: this.playerScroll,
+            });
+        },
+    },
     computed: {
         isPlayingTrack() {
             return Boolean(this.track.index === this.$store.getters.playingTrack)
+        },
+        playerScroll() {
+            return this.$store.getters.playerScroll
+        },
+        elastic() {
+            return {
+                transform: `translateY(${this.deltaY}px)`
+            }
         }
     },
     filters: {

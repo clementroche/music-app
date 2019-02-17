@@ -1,12 +1,13 @@
 <template>
     <div id="bottom" ref="bottom">
+        <div class="background" :style="bottom"></div>
         <div class="head">
-            <h3>title</h3>
+            <h3>{{bottom.transform}}</h3>
             <div class="save">
                 <div>save</div>
             </div>
         </div>
-        <tracks-list></tracks-list>
+        <tracks-list id="tracks"></tracks-list>
     </div>
 </template>
 
@@ -19,15 +20,34 @@ export default {
     mounted() {
         document.addEventListener('wheel', (e) => {
             // if(this.$refs.list) {
-                this.onScroll(e)
+                this.onScroll(e.deltaY)
             // }
             
         })
     },
+    computed: {
+        playerScroll() {
+            return this.$store.getters.playerScroll
+        },
+        bottom() {
+            return {
+                transform: `translateY(${this.playerScroll}px)`
+            }
+        }
+    },
     methods: {
-        onScroll() {
-            console.log('scroll')
-            console.log(this.$refs.bottom.offsetHeight,this.$refs.bottom.offsetTop)
+        onScroll(deltaY) {
+            console.log(this.$refs.bottom.offsetTop)
+            // console.log(this.$refs.bottom.offsetHeight,this.$refs.bottom.offsetTop)
+            let maxScroll = document.querySelector('#top').offsetHeight + 28
+            if(this.playerScroll +( Math.sign(deltaY)*50) >= -maxScroll) {
+                let amount = Math.min(this.playerScroll +( Math.sign(deltaY)*50),0)
+                this.$store.commit('playerScroll', amount)
+            } else {
+                let amount = -maxScroll
+                this.$store.commit('playerScroll', amount)
+            }
+
         }
     }
 }
@@ -40,9 +60,27 @@ export default {
 #bottom {
     margin-top: 28px;
     padding: 0 32px;
+    position: relative;
+
+    #tracks {
+        z-index: 3;
+        position:relative;
+    }
+
+    .background {
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top:0px;
+        left: 0px;
+        background: #ffffff;
+    }
     
     .head{
         display: flex;
+        z-index: 3;
+        position:relative;
     
         h3 {
             font-family: $title-font;

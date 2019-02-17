@@ -31,7 +31,7 @@ export default {
             nameOpacity: 0,
             artistY: 16,
             artistOpacity: 0,
-            tracksOpacity:0
+            tracksOpacity: 0
         }
     },
     methods: {
@@ -114,31 +114,31 @@ export default {
 
         TweenLite.to(this, 1.5, {
             ease: Elastic.easeOut.config(1.2, 0.3),
-            delay: 1.5,
+            delay: 1 + this.album.index / 10,
             nameY: 0,
         });
 
         TweenLite.to(this, 1.5, {
             ease: Power3.easeOut,
-            delay: 1.5,
+            delay: 1 + this.album.index / 10,
             nameOpacity: 1,
         });
 
         TweenLite.to(this, 1.5, {
             ease: Elastic.easeOut.config(1.2, 0.3),
-            delay: 1.75,
+            delay: 1.25 + this.album.index / 10,
             artistY: 0,
         });
 
         TweenLite.to(this, 1.5, {
             ease: Power3.easeOut,
-            delay: 1.75,
+            delay: 1.25 + this.album.index / 10,
             artistOpacity: 1,
         });
 
         TweenLite.to(this, 1.5, {
             ease: Power3.easeOut,
-            delay: 1.75,
+            delay: 1.25 + this.album.index / 10,
             tracksOpacity: 1,
         });
     },

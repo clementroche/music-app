@@ -1,8 +1,7 @@
 <template>
     <div id="tracks">
-        <div v-for="track in tracks" :key="track.id">
-            <one-track :track="track"></one-track>
-            <!-- test -->
+        <div v-for="(track,index) in tracks" :key="track.id">
+            <one-track :track="track" :index="index"></one-track>
         </div>
         
     </div>

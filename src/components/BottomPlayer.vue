@@ -1,5 +1,5 @@
 <template>
-    <div id="bottom">
+    <div id="bottom" ref="bottom">
         <div class="head">
             <h3>title</h3>
             <div class="save">
@@ -15,6 +15,20 @@ import TracksList from '@/components/TracksList'
 export default {
     components: {
         TracksList
+    },
+    mounted() {
+        document.addEventListener('wheel', (e) => {
+            // if(this.$refs.list) {
+                this.onScroll(e)
+            // }
+            
+        })
+    },
+    methods: {
+        onScroll() {
+            console.log('scroll')
+            console.log(this.$refs.bottom.offsetHeight,this.$refs.bottom.offsetTop)
+        }
     }
 }
 </script>
@@ -24,7 +38,8 @@ export default {
 @import '../assets/vars.scss';
 
 #bottom {
-    padding: 0 16px;
+    margin-top: 28px;
+    padding: 0 32px;
     
     .head{
         display: flex;

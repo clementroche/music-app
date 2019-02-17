@@ -16,7 +16,9 @@ export default {
     },
     methods: {
         setPlayingTrack(index) {
+            this.$store.commit('setIsPlaying',true)
             this.$store.commit('setPlayingTrack',index)
+            
         }
     },
     computed: {

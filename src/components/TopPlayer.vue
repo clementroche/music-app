@@ -37,7 +37,7 @@ export default {
 @import '../assets/vars.scss';
 
     header {
-        padding: 0px 16px 8px;
+        padding: 0px 16px 20px;
         text-align: center;
 
         h1 {

@@ -34,16 +34,24 @@ export default {
         },
         playingTrack() {
             return this.$store.state.player.playingTrack-1
+        },
+        currentTimeFromSlider() {
+            return this.$store.getters.currentTimeFromSlider
         }
     },
     methods: {
         audioPlay() {
-            
                 if(this.audio!= undefined) {
                     this.audio.pause()
                 }
                 if(this.currentPlaying !== this.playingTrack) {
                     this.audio = new Audio(this.currentTrackURL)
+                    this.audio.addEventListener("timeupdate", ()=>{
+                        this.$store.commit('setCurrentTime',this.audio.currentTime)
+                    });
+                    this.audio.addEventListener("ended", ()=>{
+                        this.$store.commit('updateTrack',1)
+                    });
                     this.currentPlaying = this.playingTrack
                 }
 
@@ -71,6 +79,12 @@ export default {
             }
         },
         playingTrack() {
+            
+        },
+        currentTimeFromSlider() {
+            if(this.audio) {
+                this.audio.currentTime = this.currentTimeFromSlider
+            }
             
         }
     },

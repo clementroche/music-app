@@ -88,7 +88,7 @@ export default {
     height: 100%;
     position: relative;
     border-radius: 16px;
-    max-width: 75%;
+    // max-width: 75%;
 
     .gradient {
         width: 100%;

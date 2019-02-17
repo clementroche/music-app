@@ -34,7 +34,7 @@ export default {
         justify-content: center;
         margin: 0 16px;
         width: 50px;
-        height: 50px;
+        height: 32px;
         cursor: pointer;
 
         &.scale {
@@ -44,7 +44,7 @@ export default {
         }
 
         .icon {
-            height: 20px;
+            height: 16px;
             width: 100%;
 
             img {

@@ -24,6 +24,6 @@ export default {
 
 <style lang="scss" scoped>
     #tracks {
-        margin-top: 16px;
+        margin-top: 12px;
     }
 </style>

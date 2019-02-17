@@ -28,7 +28,9 @@ export default new Vuex.Store({
                 },
                 currentTracks: [],
                 playingTrack: 1,
-                isPlaying: false
+                isPlaying: false,
+                currentTime: 0,
+                currentTimeFromSlider: 0
             }
         },
         getters: {
@@ -71,6 +73,12 @@ export default new Vuex.Store({
             },
             isPlaying(state) {
                 return state.player.isPlaying
+            },
+            currentTime(state) {
+                return state.player.currentTime
+            },
+            currentTimeFromSlider(state) {
+                return state.player.currentTimeFromSlider
             }
         },
         mutations: {
@@ -99,11 +107,21 @@ export default new Vuex.Store({
             toggleIsPlaying(state) {
                 state.player.isPlaying = !state.player.isPlaying
             },
+            setIsPlaying(state,value) {
+                state.player.isPlaying = value
+            },
+            setCurrentTime(state, time) {
+                state.player.currentTime = time
+            },
+            setCurrentTimeFromSlider(state, time) {
+                state.player.currentTimeFromSlider = time
+            },
             updateTrack(state,value) {
                 if(state.player.playingTrack + value > state.player.currentTracks.length-1) {
                     state.player.playingTrack = 1
                 } else if(state.player.playingTrack + value <= 0){
-                    state.player.playingTrack = state.player.currentTracks.length-1
+                    // state.player.playingTrack = state.player.currentTracks.length-1
+                    state.player.playingTrack=1
                 } else {
                     state.player.playingTrack += value
                 }

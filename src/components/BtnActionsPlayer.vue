@@ -40,6 +40,11 @@ export default {
         border-radius: 100%;
         margin: 0 16px;
         cursor: pointer;
+        &.isPlaying {
+            .background {
+                background:$text-secondary-color;
+            }
+        }
 
         &.playpause {
             width: 56px;

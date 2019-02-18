@@ -31,7 +31,8 @@ export default new Vuex.Store({
                 playingTrack: 1,
                 isPlaying: false,
                 currentTime: 0,
-                currentTimeFromSlider: 0
+                currentTimeFromSlider: 0,
+                maxScroll: 0
             }
         },
         getters: {
@@ -83,6 +84,9 @@ export default new Vuex.Store({
             },
             playerScroll(state) {
                 return state.player.scroll
+            },
+            playerMaxScroll(state) {
+                return state.player.maxScroll
             }
         },
         mutations: {
@@ -132,6 +136,9 @@ export default new Vuex.Store({
                 } else {
                     state.player.playingTrack += value
                 }
+            },
+            setPlayerMaxScroll(state,max) {
+                state.player.maxScroll = max
             },
             FETCH_ALBUMS(state, albums) {
                 let orderedAlbums = {}

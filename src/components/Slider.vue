@@ -47,7 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 #slider {
-    width: 50%;
+    width: 35%;
     height: 100%;
     // max-height: 550px;
     // padding-bottom: 16px;

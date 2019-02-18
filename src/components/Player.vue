@@ -19,6 +19,11 @@ export default {
         this.$store.dispatch('fetchAlbumData',this.$route.params.id)
         this.$store.dispatch('fetchAlbumTracks',this.$route.params.id)
         this.$store.commit('setPlayingTrack',1)
+        
+    },
+    mounted() {
+        this.$store.commit('setIsPlaying',false)
+        this.$store.commit('setCurrentTime',0)
     },
     computed: {
         currentTrackURL() {
@@ -64,6 +69,11 @@ export default {
                     this.audio.pause()
                 }
         }
+    },
+    beforeDestroy() {
+                if(this.audio!= undefined) {
+                    this.audio.pause()
+                }
     },
     watch: {
         currentTrackURL() {

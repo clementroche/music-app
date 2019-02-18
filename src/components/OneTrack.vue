@@ -47,7 +47,8 @@ export default {
         },
         elastic() {
             return {
-                transform: `translateY(${this.deltaY}px)`
+                transform: `translateY(${this.deltaY}px)`,
+                opacity: ((this.index+1) * 32) + this.deltaY < -525 ? 0 : 1
             }
         }
     },

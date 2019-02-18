@@ -21,6 +21,11 @@ function map_range(value, low1, high1, low2, high2) {
 	return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 export default {
+    data() {
+        return {
+            scale:1
+        }
+    },
     computed: {
         album() {
             return this.$store.getters.currentAlbum
@@ -30,8 +35,17 @@ export default {
         },
         top() {
             return {
-                transform: `translateY(${this.scrollAmount/5}px) scale(${map_range(this.scrollAmount,-550,0,0.5,1)})`
+                transform: `scale(${this.scale})`,
+                opacity: this.scale
             }
+        }
+    },
+    watch: {
+        scrollAmount() {
+            TweenLite.to(this, 0.5, {
+                ease: Power3.easeOut,
+                scale: map_range(this.scrollAmount,-550,0,0.5,1),
+            });
         }
     },
     components: {
@@ -46,6 +60,10 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/fonts.scss';
 @import '../assets/vars.scss';
+
+#top {
+    transform-origin: top center;
+}
 
     header {
         padding: 0px 16px 20px;

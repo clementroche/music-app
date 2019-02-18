@@ -1,19 +1,24 @@
 <template>
     <div id="bottom" ref="bottom">
         <div class="background" :style="bottom"></div>
-        <div class="head">
-            <h3>{{bottom.transform}}</h3>
+        <div class="head" :style="bottom">
+            <h3>TRACKS</h3>
             <div class="save">
                 <div>save</div>
             </div>
         </div>
-        <tracks-list id="tracks"></tracks-list>
+        <tracks-list id="tracks" ref="tracks"></tracks-list>
     </div>
 </template>
 
 <script>
 import TracksList from '@/components/TracksList'
 export default {
+    data() {
+        return {
+            deltaY: 0
+        }
+    },
     components: {
         TracksList
     },
@@ -31,15 +36,26 @@ export default {
         },
         bottom() {
             return {
-                transform: `translateY(${this.playerScroll}px)`
+                transform: `translateY(${Math.max(this.deltaY,-540)}px)`
             }
         }
     },
+    watch: {
+        playerScroll() {
+            TweenLite.to(this, 1.5, {
+                ease: Elastic.easeOut.config(1, 0.3),
+                deltaY: this.playerScroll,
+            });
+        },
+    },
     methods: {
         onScroll(deltaY) {
-            console.log(this.$refs.bottom.offsetTop)
+            // console.log(this.$refs.bottom.offsetTop)
+            // console.log(this.$refs.tracks.$el.offsetHeight)
+            
             // console.log(this.$refs.bottom.offsetHeight,this.$refs.bottom.offsetTop)
-            let maxScroll = document.querySelector('#top').offsetHeight + 28
+            let maxScroll = Math.max(document.querySelector('#top').offsetHeight + 28,this.$refs.tracks.$el.offsetHeight) + 100 
+            this.$store.commit('setPlayerMaxScroll',maxScroll)
             if(this.playerScroll +( Math.sign(deltaY)*50) >= -maxScroll) {
                 let amount = Math.min(this.playerScroll +( Math.sign(deltaY)*50),0)
                 this.$store.commit('playerScroll', amount)
@@ -72,9 +88,9 @@ export default {
         height: 100%;
         width: 100%;
         position: absolute;
-        top:0px;
+        top:-32px;
         left: 0px;
-        background: #ffffff;
+        background: linear-gradient(0deg,#ffffff 95%,rgba(0,0,0,0.001));
     }
     
     .head{

@@ -1,53 +1,104 @@
 <template>
-    <div id="minified-player">
-        <div class="slider"></div>
+<transition v-on:enter="enter" v-on:leave="leave">
+    <div id="minified-player" v-if="playerScroll < -maxScroll+200 && !maxScroll == 0" :style="animation">
+        <div class="slider" :style="slider"></div>
         <div class="container">
             <div class="info">
                 <div class="cover">
                     <img :src="player.covers[1].url" alt="">
                 </div>
-                <div class="meta">
-                    <div>
-                        <div class="album">{{player.current.name}}</div>
-                        <div class="artist">{{player.current.artistName}}</div>
+                    <div class="meta">
+                        <div>
+                            <div class="album">{{player.current.name}}</div>
+                            <div class="artist">{{player.current.artistName}}</div>
+                        </div>
+                        <div class="playing">Now Playing ● <span>{{currentTrackName}}</span></div>
                     </div>
-                    <div class="playing">Now Playing <span>{{currentTrackName}}</span></div>
+                </div>
+                <div class="actions">
+                    <minified-player-actions></minified-player-actions>
                 </div>
             </div>
-            <div class="actions">
-                <minified-player-actions></minified-player-actions>
-            </div>
         </div>
-    </div>
+</transition>
 </template>
 
 <script>
 import MinifiedPlayerActions from '@/components/MinifiedPlayerActions'
+
+function map_range(value, low1, high1, low2, high2) {
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+
 export default {
-    data(){
+    data() {
         return {
-            currentTrackName:''
+            currentTrackName: '',
+            y: -110
+        }
+    },
+    methods: {
+        enter(el, done) {
+            TweenLite.to(el, 0, {
+                ease: Power0.easeOut,
+                y: 110
+            });
+            TweenLite.to(el, 0.25, {
+                ease: Power3.easeOut,
+                y: 0,
+                onComplete: () => {
+                    done()
+                }
+            });
+        },
+        leave(el, done) {
+            TweenLite.to(el, 0.25, {
+                ease: Power0.easeOut,
+                y: 110,
+                onComplete: () => {
+                    done()
+                }
+            });
         }
     },
     computed: {
+        animation() {
+            return {
+                transform: `translateY(${this.y})`
+            }
+        },
         player() {
             return this.$store.getters.player
         },
         playingTrack() {
             return this.$store.getters.playingTrack
+        },
+        currentTime() {
+            return map_range(this.$store.getters.currentTime, 0, 30, 0, 100)
+        },
+        slider() {
+            return {
+                width: this.currentTime + '%'
+            }
+        },
+        playerScroll() {
+            return this.$store.getters.playerScroll
+        },
+        maxScroll() {
+            return this.$store.getters.playerMaxScroll
         }
+
     },
     watch: {
         playingTrack() {
-            this.currentTrackName = this.player.currentTracks[this.playingTrack-1].name
+            this.currentTrackName = this.player.currentTracks[this.playingTrack - 1].name
         }
     },
     mounted() {
-        console.log('mounted')
-        setTimeout(()=>{
-            this.currentTrackName = this.player.currentTracks[this.playingTrack-1].name
-        },500)
-        
+        setTimeout(() => {
+            this.currentTrackName = this.player.currentTracks[this.playingTrack - 1].name
+        }, 500)
+
     },
     components: {
         MinifiedPlayerActions
@@ -58,60 +109,85 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/fonts.scss';
 @import '../assets/vars.scss';
-    #minified-player {
-        // height: 100px;
-        // background: red;
-        padding: 8px 16px;
-        width: 100%;
 
-        .container {
+#minified-player {
+    // height: 100px;
+    background: $background-color;
+    padding: 16px 16px;
+    width: 100%;
+    box-shadow: 0 -2px 25px rgba(0, 0, 0, .25);
+    // position: relative;
+
+    .slider {
+        background: linear-gradient(180deg, $primary-color, $secondary-color);
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 3px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+
+        .actions {
             display: flex;
-            justify-content: space-between;
-            .actions {
-                display: flex;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            height: 100%;
+        }
+
+        .info {
+            display: flex;
+
+            .cover {
+                height: 70px;
+                width: 70px;
             }
 
-            .info {
+            .meta {
+                padding-left: 8px;
                 display: flex;
-                .cover {
-                    height: 70px;
-                    width: 70px;
+                flex-direction: column;
+                justify-content: space-between;
+                overflow: hidden;
+
+                .album {
+                    font-family: $title-font;
+                    font-weight: bolder;
+                    text-transform: uppercase;
+                    line-height: 0.8rem;
+                    font-size: 1rem;
                 }
-                .meta {
-                    padding-left: 8px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
+
+                .artist {
+                    font-family: $title-font;
+                    text-transform: uppercase;
+                    background: linear-gradient(180deg, $primary-color, $secondary-color);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                .playing {
+                    font-family: $subtitle-font;
+                    color: $text-secondary-color;
+                    font-weight: 600;
+                    font-size: 0.75rem;
+                    white-space: nowrap;
                     overflow: hidden;
-                    .album {
-                        font-family: $title-font;
-                        font-weight: bolder;
-                        text-transform: uppercase;
-                        line-height: 0.8rem;
-                        font-size: 1rem;
-                    }
-                    .artist {
-                        font-family: $title-font;
-                        text-transform: uppercase;
-                        background: linear-gradient(180deg, $primary-color, $secondary-color);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        font-size: 1rem;
-                    }
-                    .playing {
-                        font-family: $subtitle-font;
-                        color: $text-secondary-color;
+                    text-overflow: ellipsis;
+
+                    span {
+                        color: #000;
                         font-weight: 700;
-                        font-size: 0.8rem;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        span {
-                            color: #000;
-                        }
                     }
                 }
             }
         }
     }
+}
 </style>

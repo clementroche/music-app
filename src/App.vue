@@ -62,6 +62,7 @@ body {
   padding: 16px;
   display: flex;
   justify-content: space-between;
+  z-index: 5;
   img {
     height: 20px;
   }

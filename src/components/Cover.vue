@@ -1,9 +1,11 @@
 <template>
-<div id="cover">
-    <div class="container">
-        <img :src="covers[4].url" alt="">
+<transition v-on:enter="enter" appear>
+    <div id="cover">
+        <div class="container">
+            <img :src="covers[4].url" alt="">
+        </div>
     </div>
-</div>
+</transition>
 </template>
 
 <script>
@@ -26,6 +28,22 @@ export default {
         }
     },
     methods: {
+        enter(el, done) {
+            console.log('start')
+            TweenLite.to(el, 0, {
+                ease: Power3.easeOut,
+                scale: 0.2
+            });
+            TweenLite.to(el, 1.5, {
+                delay:0.25,
+                ease: Elastic.easeOut.config(1, 0.3),
+                scale: 1,
+                onComplete: () => {
+                    console.log('end')
+                    done()
+                }
+            });
+        },
         fetchCover(url) {
             fetch(url + '?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk')
                 .then(
@@ -66,6 +84,7 @@ export default {
     #cover {
         display: flex;
         padding: 0 16px;
+        height: 283px;
         .container {
             margin: auto;
             width: 100%;

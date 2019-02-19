@@ -1,16 +1,17 @@
 <template>
     <div id="minified-player-actions">
-        <div class="previous">
+        <div class="previous" @click="updateTrack(-1)">
             <img :src="'../static/icons/back-grey.svg'" alt="">
         </div>
-        <div class="playpause">
+        <div :class="['playpause',isPlaying ? 'isPlaying' : '']" @click="togglePlay">
             <div class="border"></div>
             <div class="background"></div>
             <div class="icon">
-                <img :src="'../static/icons/play.svg'" alt="">
+                <img :src="'../static/icons/play.svg'" alt="" v-if="!isPlaying">
+                <img :src="'../static/icons/pause.svg'" alt="" v-else>
             </div>
         </div>
-        <div class="next">
+        <div class="next" @click="updateTrack(1)">
             <img :src="'../static/icons/back180-grey.svg'" alt="">
         </div>
     </div>
@@ -18,7 +19,20 @@
 
 <script>
 export default {
-    
+    computed: {
+        isPlaying() {
+            return this.$store.getters.isPlaying
+        }
+    },
+    methods: {
+        togglePlay() {
+            this.$store.commit('toggleIsPlaying')
+        },
+        updateTrack(value) {
+            this.$store.commit('setIsPlaying',true)
+            this.$store.commit('updateTrack',value)
+        }
+    },
 }
 </script>
 
@@ -29,23 +43,32 @@ export default {
     #minified-player-actions {
         display: flex;
         align-items: center;
+        position: relative;
+        top:-8px;
+        >div {
+            border-radius: 100%;
+        }
         .previous,.next {
             cursor: pointer;
-            height: 16px;
+            height: 32px;
+            width: 28px;
+            display: flex;
             img {
-                height: 80%;
+                height: 40%;
+                margin: auto;
             }
         }
         .playpause {
+            box-shadow:$hard-shadow;
             cursor: pointer;
             margin: 0 8px;
             height: 32px;
             width: 32px;
             position: relative;
             display: flex;
-            .isPlaying {
+            &.isPlaying {
                 .background {
-                    
+                    background: $text-secondary-color;
                 }
             }
             .background {
@@ -64,7 +87,7 @@ export default {
                 border-radius: 100%;
             }
             .icon {
-                height: 50%;
+                height: 40%;
                 margin: auto;
                 position: relative;
                 z-index: 3;

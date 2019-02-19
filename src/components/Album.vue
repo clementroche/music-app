@@ -1,11 +1,13 @@
 <template>
 <router-link :to="{ name: 'Player', params: { id: album.id,data: data }}" :class="['album']" :style="translation" ref="album">
-    <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="">
-    <div class="meta">
-        <div class="name" :style="name">{{album.name}}</div>
-        <div class="artist" :style="artist">{{album.artistName}}</div>
-        <div class="tracks" :style="tracks">{{album.trackCount}} tracks</div>
-    </div>
+    <transition v-on:before-leave="beforeLeave">
+        <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="">
+    </transition>
+        <div class="meta">
+            <div class="name" :style="name">{{album.name}}</div>
+            <div class="artist" :style="artist">{{album.artistName}}</div>
+            <div class="tracks" :style="tracks">{{album.trackCount}} tracks</div>
+        </div>
 </router-link>
 </template>
 
@@ -35,6 +37,15 @@ export default {
         }
     },
     methods: {
+        beforeLeave(el, done) {
+            TweenLite.to(el, 1, {
+                ease: Power3.easeOut,
+                scale: 0.2,
+                onComplete: () => {
+                    done()
+                }
+            });
+        },
         fetchCover(url) {
             fetch(url + '?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk')
                 .then(

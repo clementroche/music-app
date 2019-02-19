@@ -32,8 +32,8 @@ export default {
     },
     watch: {
         playerScroll() {
-            TweenLite.to(this, 2.5 - Math.abs((10 - this.index) / 10), {
-                ease: Elastic.easeOut.config(1, 0.3),
+            TweenLite.to(this, 2 - Math.abs((10 - this.index) / 10), {
+                ease: Elastic.easeOut.config(1, 0.5),
                 deltaY: this.playerScroll,
             });
         },
@@ -91,7 +91,10 @@ export default {
     }
     .name {
         width: 80%;
-        
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding-right: 8px;
        
     }
     .index,.duration {

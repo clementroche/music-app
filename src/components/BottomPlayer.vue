@@ -91,7 +91,7 @@ export default {
         position: absolute;
         top:-32px;
         left: 0px;
-        background: linear-gradient(0deg,#ffffff 95%,rgba(0,0,0,0.001));
+        background: linear-gradient(0deg,#ffffff 98%,rgba(0,0,0,0.001));
     }
     
     .head{

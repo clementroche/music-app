@@ -39,6 +39,7 @@ export default {
                         // Examine the text in the response
                         response.json().then((data) => {
                             this.covers = data.images
+                            this.$store.commit('setCovers',data.images)
                         });
                     }
                 )

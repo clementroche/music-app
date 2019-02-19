@@ -54,16 +54,17 @@ export default {
             // console.log(this.$refs.tracks.$el.offsetHeight)
             
             // console.log(this.$refs.bottom.offsetHeight,this.$refs.bottom.offsetTop)
-            let maxScroll = Math.max(document.querySelector('#top').offsetHeight + 28,this.$refs.tracks.$el.offsetHeight) + 100 
-            this.$store.commit('setPlayerMaxScroll',maxScroll)
-            if(this.playerScroll +( Math.sign(deltaY)*50) >= -maxScroll) {
-                let amount = Math.min(this.playerScroll +( Math.sign(deltaY)*50),0)
-                this.$store.commit('playerScroll', amount)
-            } else {
-                let amount = -maxScroll
-                this.$store.commit('playerScroll', amount)
+            if(this.$refs.tracks){
+                let maxScroll = Math.max(document.querySelector('#top').offsetHeight + 28,this.$refs.tracks.$el.offsetHeight) + 100 
+                this.$store.commit('setPlayerMaxScroll',maxScroll)
+                if(this.playerScroll +( Math.sign(deltaY)*50) >= -maxScroll) {
+                    let amount = Math.min(this.playerScroll +( Math.sign(deltaY)*50),0)
+                    this.$store.commit('playerScroll', amount)
+                } else {
+                    let amount = -maxScroll
+                    this.$store.commit('playerScroll', amount)
+                }
             }
-
         }
     }
 }

@@ -2,12 +2,15 @@
     <div id="player">
         <top-player id="top"></top-player>
         <bottom-player id="bottom"></bottom-player>
+        <minified-player class="mini"></minified-player>
     </div>
 </template>
 
 <script>
 import TopPlayer from '@/components/TopPlayer'
 import BottomPlayer from '@/components/BottomPlayer'
+import MinifiedPlayer from '@/components/MinifiedPlayer'
+
 export default {
     data() {
         return {
@@ -100,7 +103,8 @@ export default {
     },
     components: {
         TopPlayer,
-        BottomPlayer
+        BottomPlayer,
+        MinifiedPlayer
     }
 }
 </script>
@@ -113,6 +117,22 @@ export default {
         height: calc(100% - 52px);
         display: flex;
         flex-direction: column;
+        position: relative;
+    }
+
+    #top {
+        position: relative;
+    }
+
+    #bottom {
+        position: relative;
+    }
+
+    .mini {
+        z-index: 3;
+        position: absolute;
+        bottom: 0px;
+        
     }
     
 </style>

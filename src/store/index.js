@@ -32,10 +32,17 @@ export default new Vuex.Store({
                 isPlaying: false,
                 currentTime: 0,
                 currentTimeFromSlider: 0,
-                maxScroll: 0
+                maxScroll: 0,
+                covers: [
+                    {url: ''},
+                    {url: ''}
+                ]
             }
         },
         getters: {
+            player (state) {
+                return state.player
+            },
             scrollAmount (state) {
                 return state.scrollAmount
             },
@@ -139,6 +146,9 @@ export default new Vuex.Store({
             },
             setPlayerMaxScroll(state,max) {
                 state.player.maxScroll = max
+            },
+            setCovers(state,covers) {
+                state.player.covers = covers
             },
             FETCH_ALBUMS(state, albums) {
                 let orderedAlbums = {}

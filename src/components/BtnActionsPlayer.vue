@@ -5,11 +5,13 @@
             <div class="border"></div>
             </transition>
             <div class="background"></div>
-            <transition v-on:enter="enterIcon" appear>
+            
                 <div class="icon">
+                    <transition v-on:enter="enterIcon" appear>
                     <img :src="icon" alt="">
+                    </transition>
                 </div>
-            </transition>
+            
         </div>
     </transition>
 </template>
@@ -51,11 +53,11 @@ export default {
             });
         },
         enterIcon(el,done) {
-            let delay = 0.75 + (0.1*this.index)
+            let delay = 1 + (0.1*this.index)
             TweenLite.to(el, 0, {
                 delay: 0,
                 ease: Elastic.easeOut.config(1, 0.3),
-                scale:0.2
+                scale:0
             });
             TweenLite.to(el, 1.5, {
                 delay: delay,
@@ -68,16 +70,6 @@ export default {
         },
         enterBorder(el,done) {
             let delay = 0.75 + (0.1*this.index)
-            // TweenLite.to(el, 0, {
-            //     delay: 0,
-            //     ease: Elastic.easeOut.config(1, 0.3),
-            //     opacity:0,
-            // });
-            // TweenLite.to(el, 0.5, {
-            //     delay: delay,
-            //     ease: Power3.easeOut,
-            //     opacity:1,
-            // });
             TweenLite.to(el, 0, {
                 delay: 0,
                 ease: Elastic.easeOut.config(1, 0.3),

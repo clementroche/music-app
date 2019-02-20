@@ -2,7 +2,7 @@
 <transition v-on:enter="enter" appear>
     <div id="cover">
         <div class="container">
-            <img :src="covers[4].url" alt="">
+            <img :src="covers[4] ? covers[4].url : covers[3].url" alt="">
         </div>
     </div>
 </transition>
@@ -32,12 +32,22 @@ export default {
             console.log('start')
             TweenLite.to(el, 0, {
                 ease: Power3.easeOut,
-                scale: 0.2
+                scale: 0.2,
+                opacity: 0
             });
             TweenLite.to(el, 1.5, {
-                delay:0.25,
+                delay:0.5,
                 ease: Elastic.easeOut.config(1, 0.3),
                 scale: 1,
+                onComplete: () => {
+                    console.log('end')
+                    done()
+                }
+            });
+            TweenLite.to(el, 1.5, {
+                delay:0.5,
+                ease: Power3.easeOut,
+                opacity: 1,
                 onComplete: () => {
                     console.log('end')
                     done()

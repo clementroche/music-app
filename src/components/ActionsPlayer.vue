@@ -1,9 +1,9 @@
 <template>
     <div id="actions-player">
         <div class="container">
-            <btn-actions-player :icon="'../static/icons/back.svg'" v-on:triggered="track(-1)"></btn-actions-player>
-            <btn-actions-player :class="isPlaying ? 'isPlaying' : ''" :icon="isPlaying ? '../static/icons/pause.svg' : '../static/icons/play.svg'" v-on:triggered="toggleAudio" :isPlayButton="true"></btn-actions-player>
-            <btn-actions-player :icon="'../static/icons/back180.svg'" v-on:triggered="track(1)"></btn-actions-player>
+            <btn-actions-player  :index="1" :icon="'../static/icons/back.svg'" v-on:triggered="track(-1)"></btn-actions-player>
+            <btn-actions-player :index="2" :class="isPlaying ? 'isPlaying' : ''" :icon="isPlaying ? '../static/icons/pause.svg' : '../static/icons/play.svg'" v-on:triggered="toggleAudio" :isPlayButton="true"></btn-actions-player>
+            <btn-actions-player :index="3" :icon="'../static/icons/back180.svg'" v-on:triggered="track(1)"></btn-actions-player>
         </div>
     </div>
 </template>

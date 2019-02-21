@@ -1,6 +1,6 @@
 <template>
     <transition v-on:enter="enter" appear>
-        <div :class="['track',isPlayingTrack ? 'playing' : '']" @click="setPlayingTrack(track.index)" :style="elastic">
+        <div :class="['track',isPlayingTrack ? 'playing' : '']" @click="setPlayingTrack(track.index-1)" :style="elastic">
             <div class="index">{{ track.index }}</div>
             <div class="name">{{ track.name }}</div>
             <div class="duration">{{ track.playbackSeconds | minutes }}</div>
@@ -63,7 +63,7 @@ export default {
     },
     computed: {
         isPlayingTrack() {
-            return Boolean(this.track.index === this.$store.getters.playingTrack)
+            return Boolean(this.track.index-1 === this.$store.getters.playingTrack)
         },
         playerScroll() {
             return this.$store.getters.playerScroll

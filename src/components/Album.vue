@@ -1,7 +1,7 @@
 <template>
 <transition appear v-on:enter="enter">
     <!-- <router-link :to="{ name: 'Player', params: { id: album.id,data: data }}" :class="['album']" :style="translation" ref="album"> -->
-    <div @click="nav({ name: 'Player', params: { id: album.id,data: data }},$refs.cover)" :class="['album']" ref="album">
+    <div @click="nav({ name: 'Player', params: { id: album.id,data: data }},$refs.cover)" :class="['album']" ref="album" :style="transform">
         <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="" ref="cover">
         <div class="meta">
             <transition appear v-on:enter="enterMeta">
@@ -33,7 +33,8 @@ export default {
     },
     data() {
         return {
-            covers: []
+            covers: [],
+            deltaY:0
         }
     },
     methods: {
@@ -144,6 +145,11 @@ export default {
                 covers: this.covers,
                 title: this.album.name,
                 artist: this.album.artistName
+            }
+        },
+        transform() {
+            return {
+                transform: `translateY(${this.deltaY}px)`
             }
         }
     },

@@ -1,6 +1,6 @@
 <template>
 <transition v-on:enter="enter" v-on:leave="leave">
-    <div id="minified-player" v-if="playerScroll < -maxScroll+200 && !maxScroll == 0">
+    <div id="mini" v-if="(playerScroll < -maxScroll+200 && !maxScroll == 0) || ($router.currentRoute.name === 'Libray' && currentTrackName !== '') ">
         <div class="slider" :style="slider"></div>
         <div class="container">
             <div class="info">
@@ -33,7 +33,9 @@ function map_range(value, low1, high1, low2, high2) {
 export default {
     data() {
         return {
-            currentTrackName: ''
+            currentTrackName: '',
+            audio:undefined,
+            currentPlaying: undefined
         }
     },
     methods: {
@@ -54,6 +56,30 @@ export default {
                     done()
                 }
             });
+        },
+        audioPlay() {
+                if(this.audio!= undefined) {
+                    this.audio.pause()
+                }
+                if(this.currentPlaying !== this.playingTrack) {
+                    this.audio = new Audio(this.currentTrackURL)
+                    this.audio.addEventListener("timeupdate", ()=>{
+                        this.$store.commit('setCurrentTime',this.audio.currentTime)
+                    });
+                    this.audio.addEventListener("ended", ()=>{
+                        this.$store.commit('updateTrack',1)
+                    });
+                    this.currentPlaying = this.playingTrack
+                }
+
+
+                this.audio.play()
+                
+            },
+        audioPause() {
+                if(this.audio!= undefined) {
+                    this.audio.pause()
+                }
         }
     },
     computed: {
@@ -76,17 +102,56 @@ export default {
         },
         maxScroll() {
             return this.$store.getters.playerMaxScroll
+        },
+        currentTrackURL() {
+            if(this.$store.state.player.currentTracks[this.playingTrack]) {
+                return this.$store.state.player.currentTracks[this.playingTrack].previewURL
+            } else {
+                return null
+            }
+            
+        },
+        isPlaying() {
+            return this.$store.getters.isPlaying
+        },
+        // playingTrack() {
+        //     return this.$store.state.player.playingTrack-1
+        // },
+        currentTimeFromSlider() {
+            return this.$store.getters.currentTimeFromSlider
         }
 
     },
     watch: {
         playingTrack() {
-            this.currentTrackName = this.player.currentTracks[this.playingTrack - 1].name
+            this.currentTrackName = this.player.currentTracks[this.playingTrack].name
+        },
+        currentTrackURL() {
+            if(this.isPlaying === true) {
+                this.audioPlay()
+            }
+        },
+        isPlaying() {
+            if(this.isPlaying === true) {
+                this.audioPlay()
+            } else {
+                this.audioPause()
+            }
+        },
+        currentTimeFromSlider() {
+            if(this.audio) {
+                this.audio.currentTime = this.currentTimeFromSlider
+            }
+            
         }
     },
     mounted() {
+        // console.log(this.$router.currentRoute)
+        this.$store.commit('setIsPlaying',false)
         setTimeout(() => {
-            this.currentTrackName = this.player.currentTracks[this.playingTrack - 1].name
+            if(this.player.currentTracks[this.playingTrack]) {
+                this.currentTrackName = this.player.currentTracks[this.playingTrack].name
+            }
         }, 500)
 
     },
@@ -100,7 +165,7 @@ export default {
 @import '../assets/fonts.scss';
 @import '../assets/vars.scss';
 
-#minified-player {
+#mini {
     // height: 100px;
     background: $background-color;
     padding: 16px 16px;
@@ -131,6 +196,7 @@ export default {
 
         .info {
             display: flex;
+            width: 100%;
 
             .cover {
                 height: 70px;

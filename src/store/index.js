@@ -28,7 +28,7 @@ export default new Vuex.Store({
                 },
                 scroll:0,
                 currentTracks: [],
-                playingTrack: 1,
+                playingTrack: 0,
                 isPlaying: false,
                 currentTime: 0,
                 currentTimeFromSlider: 0,

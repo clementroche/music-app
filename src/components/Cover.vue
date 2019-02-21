@@ -29,27 +29,21 @@ export default {
     },
     methods: {
         enter(el, done) {
-            console.log('start')
-            TweenLite.to(el, 0, {
-                ease: Power3.easeOut,
-                scale: 0.2,
-                opacity: 0
-            });
-            TweenLite.to(el, 1.5, {
-                delay:0.5,
+            let delay = 0.5;
+            // console.log('start')
+            TweenLite.from(el, 1.5, {
+                delay: delay,
                 ease: Elastic.easeOut.config(1, 0.3),
-                scale: 1,
-                onComplete: () => {
-                    console.log('end')
-                    done()
+                scale:0,
+                onComplete: ()=> {
+                    // done()
                 }
             });
-            TweenLite.to(el, 1.5, {
-                delay:0.5,
+            TweenLite.from(el, 1.5, {
+                delay: delay,
                 ease: Power3.easeOut,
-                opacity: 1,
-                onComplete: () => {
-                    console.log('end')
+                opacity:1,
+                onComplete: ()=> {
                     done()
                 }
             });

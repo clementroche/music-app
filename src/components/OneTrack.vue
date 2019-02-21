@@ -1,9 +1,11 @@
 <template>
-    <div :class="['track',isPlayingTrack ? 'playing' : '']" @click="setPlayingTrack(track.index)" :style="elastic">
-        <div class="index">{{ track.index }}</div>
-        <div class="name">{{ track.name }}</div>
-        <div class="duration">{{ track.playbackSeconds | minutes }}</div>
-    </div>
+    <transition v-on:enter="enter" appear>
+        <div :class="['track',isPlayingTrack ? 'playing' : '']" @click="setPlayingTrack(track.index)" :style="elastic">
+            <div class="index">{{ track.index }}</div>
+            <div class="name">{{ track.name }}</div>
+            <div class="duration">{{ track.playbackSeconds | minutes }}</div>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -28,6 +30,27 @@ export default {
             this.$store.commit('setIsPlaying',true)
             this.$store.commit('setPlayingTrack',index)
             
+        },
+        enter(el, done) {
+            let delay = 1 + (this.index*0.1)
+            
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    // done()
+                }
+            });
+
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.3),
+                y:16,
+                onComplete: ()=> {
+                    done()
+                }
+            });
         }
     },
     watch: {

@@ -71,6 +71,13 @@ export default {
                     background: $text-secondary-color;
                 }
             }
+            &:not(.isPlaying) {
+                img {
+                    position: relative;
+                    left:1px;
+                    top: -1px;
+                }
+            }
             .background {
                 background:linear-gradient(45deg, $primary-color, $secondary-color);
             }

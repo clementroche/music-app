@@ -1,6 +1,6 @@
 <template>
 <transition v-on:enter="enter" v-on:leave="leave">
-    <div id="minified-player" v-if="playerScroll < -maxScroll+200 && !maxScroll == 0" :style="animation">
+    <div id="minified-player" v-if="playerScroll < -maxScroll+200 && !maxScroll == 0">
         <div class="slider" :style="slider"></div>
         <div class="container">
             <div class="info">
@@ -33,27 +33,22 @@ function map_range(value, low1, high1, low2, high2) {
 export default {
     data() {
         return {
-            currentTrackName: '',
-            y: -110
+            currentTrackName: ''
         }
     },
     methods: {
         enter(el, done) {
-            TweenLite.to(el, 0, {
-                ease: Power0.easeOut,
-                y: 110
-            });
-            TweenLite.to(el, 0.25, {
+            TweenLite.from(el, 0.5, {
                 ease: Power3.easeOut,
-                y: 0,
+                y: 110,
                 onComplete: () => {
                     done()
                 }
             });
         },
         leave(el, done) {
-            TweenLite.to(el, 0.25, {
-                ease: Power0.easeOut,
+            TweenLite.to(el, 0.5, {
+                ease: Power3.easeOut,
                 y: 110,
                 onComplete: () => {
                     done()
@@ -62,11 +57,6 @@ export default {
         }
     },
     computed: {
-        animation() {
-            return {
-                transform: `translateY(${this.y})`
-            }
-        },
         player() {
             return this.$store.getters.player
         },

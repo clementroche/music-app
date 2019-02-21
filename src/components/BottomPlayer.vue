@@ -1,12 +1,16 @@
 <template>
     <div id="bottom" ref="bottom">
         <div class="background" :style="bottom"></div>
-        <div class="head" :style="bottom">
-            <h3>TRACKS</h3>
-            <div class="save">
-                <div>save</div>
+            <div class="head" :style="bottom">
+                <transition v-on:enter="enterH3" appear>
+                    <h3>TRACKS</h3>
+                </transition>
+                <transition v-on:enter="enterSave" appear>
+                    <div class="save">
+                        <div>save</div>
+                    </div>
+                </transition>
             </div>
-        </div>
         <tracks-list id="tracks" ref="tracks"></tracks-list>
     </div>
 </template>
@@ -50,10 +54,6 @@ export default {
     },
     methods: {
         onScroll(deltaY) {
-            // console.log(this.$refs.bottom.offsetTop)
-            // console.log(this.$refs.tracks.$el.offsetHeight)
-            
-            // console.log(this.$refs.bottom.offsetHeight,this.$refs.bottom.offsetTop)
             if(this.$refs.tracks){
                 let maxScroll = Math.max(document.querySelector('#top').offsetHeight + 28,this.$refs.tracks.$el.offsetHeight) + 100 
                 this.$store.commit('setPlayerMaxScroll',maxScroll)
@@ -65,6 +65,48 @@ export default {
                     this.$store.commit('playerScroll', amount)
                 }
             }
+        },
+        enterH3(el, done) {
+            let delay = 1
+            
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    // done()
+                }
+            });
+
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.3),
+                y:16,
+                onComplete: ()=> {
+                    done()
+                }
+            });
+        },
+        enterSave(el, done) {
+            let delay = 1.25
+            
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    // done()
+                }
+            });
+
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.3),
+                y:16,
+                onComplete: ()=> {
+                    done()
+                }
+            });
         }
     }
 }

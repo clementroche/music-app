@@ -1,8 +1,12 @@
 <template>
 <div id="library" ref="library">
     <header>
-        <h1 :style="title">my library</h1>
-        <h2 :style="subtitle">albums</h2>
+        <transition appear v-on:enter="enterh1">
+            <h1>my library</h1>
+        </transition>
+        <transition appear v-on:enter="enterh2">
+            <h2>albums</h2>
+        </transition>
     </header>
     <div class="container">
         <albums-list></albums-list>
@@ -15,19 +19,51 @@
 <script>
 import AlbumsList from '@/components/AlbumsList'
 import Slider from '@/components/Slider'
-import {
-    TweenMax,
-    Elastic,
-    TimelineLite
-} from "gsap/TweenMax"
 
 export default {
     data() {
         return {
-            titleY: 16,
-            titleOpacity: 0,
-            subtitleY: 16,
-            subtitleOpacity: 0
+        }
+    },
+    methods: {
+        enterh1(el,done) {
+            let delay = 0.75
+
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.3),
+                y:16,
+                onComplete: ()=> {
+                    // done()
+                }
+            });
+            TweenLite.from(el, 0.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=> {
+                    done()
+                }
+            });
+        },
+        enterh2(el,done) {
+            let delay = 1
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.3),
+                y:16,
+                onComplete: ()=> {
+                    // done()
+                }
+            });
+            TweenLite.from(el, 0.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=> {
+                    done()
+                }
+            });
         }
     },
     mounted() {
@@ -61,18 +97,6 @@ export default {
         },
         currentLetterIndex() {
             return this.$store.getters.currentLetterIndex
-        },
-        title() {
-            return {
-                transform: `translateY(${this.titleY}px)`,
-                opacity: this.titleOpacity
-            }
-        },
-        subtitle() {
-            return {
-                transform: `translateY(${this.subtitleY}px)`,
-                opacity: this.subtitleOpacity
-            }
         }
     },
     components: {

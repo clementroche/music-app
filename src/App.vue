@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import GSAP from "gsap/TweenMax"
 export default {
   name: 'App',
   data() {

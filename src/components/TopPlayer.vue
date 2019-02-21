@@ -55,48 +55,41 @@ export default {
     methods: {
         enterh1(el,done) {
             let delay = 0.75
-            TweenLite.to(el, 0, {
-                delay: 0,
-                ease: Elastic.easeOut.config(1, 0.3),
-                opacity:0,
-            });
-            TweenLite.to(el, 0.5, {
+
+            TweenLite.from(el, 1.5, {
                 delay: delay,
-                ease: Power3.easeOut,
-                opacity:1,
-            });
-            TweenLite.to(el, 0, {
-                delay: 0,
                 ease: Elastic.easeOut.config(1, 0.3),
                 y:16,
+                onComplete: ()=> {
+                    // done()
+                }
             });
-            TweenLite.to(el, 1.5, {
+            TweenLite.from(el, 0.5, {
                 delay: delay,
-                ease: Elastic.easeOut.config(1, 0.3),
-                y:0,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=> {
+                    done()
+                }
             });
         },
         enterh2(el,done) {
             let delay = 1
-            TweenLite.to(el, 0, {
-                delay: 0,
-                ease: Elastic.easeOut.config(1, 0.3),
-                opacity:0,
-            });
-            TweenLite.to(el, 1.5, {
+            TweenLite.from(el, 1.5, {
                 delay: delay,
-                ease: Power3.easeOut,
-                opacity:1,
-            });
-            TweenLite.to(el, 0, {
-                delay: 0,
                 ease: Elastic.easeOut.config(1, 0.3),
                 y:16,
+                onComplete: ()=> {
+                    // done()
+                }
             });
-            TweenLite.to(el, 1.5, {
+            TweenLite.from(el, 0.5, {
                 delay: delay,
-                ease: Elastic.easeOut.config(1, 0.3),
-                y:0,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=> {
+                    done()
+                }
             });
         }
     },

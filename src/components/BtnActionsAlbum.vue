@@ -1,10 +1,12 @@
 <template>
-    <div class="btn">
-        <div class="icon">
-            <img :src="icon" alt="">
+    <transition v-on:enter="enter" appear>
+        <div class="btn">
+            <div class="icon">
+                <img :src="icon" alt="">
+            </div>
+            <div class="wording">{{ wording }}</div>
         </div>
-        <div class="wording">{{ wording }}</div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -18,7 +20,34 @@ export default {
         wording: {
             type: String,
             required: true
+        },
+        index: {
+            type: Number,
+            required: true
         }
+    },
+    methods: {
+        enter(el,done) {
+            let delay = 1 + (0.1*this.index)
+            
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    // done()
+                }
+            });
+
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.3),
+                scale:0,
+                onComplete: ()=> {
+                    done()
+                }
+            });
+        },
     }
 }
 </script>

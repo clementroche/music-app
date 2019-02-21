@@ -1,17 +1,23 @@
 <template>
     <div id="slider">
         <div class="container" ref="slider">
-            <div class="bar"></div>
-            <div class="cursor" :style="cursor">
-                <div class="border"></div>
-                <div class="inner"></div>
-            </div>
+            <transition v-on:enter="enterBar" appear>
+                <div class="bar"></div>
+            </transition>
+            <transition v-on:enter="enterCursor" appear>
+                <div class="cursor" :style="cursor">
+                    <div class="border"></div>
+                    <div class="inner"></div>
+                </div>
+            </transition>
             <div class="fill" :style="fill"></div>
         </div>
-        <div class="time">
-            <div class="current">{{currentTime | minutes}}</div>
-            <div class="end">0:30</div>
-        </div>
+        <transition v-on:enter="enterTime" appear>
+            <div class="time">
+                <div class="current">{{currentTime | minutes}}</div>
+                <div class="end">0:30</div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -57,6 +63,49 @@ export default {
         updateCurrentTime(x) {
             let t = map_range(x,0,this.width,0,30)
             this.$store.commit('setCurrentTimeFromSlider',t)
+        },
+        enterBar(el,done) {
+            let delay = 1.5
+            TweenLite.from(el, 0.5, {
+                ease: Power3.easeOut,
+                delay: delay,
+                width: '0%',
+                left: '50%',
+                onComplete: () => {
+                    done()
+                }
+            });
+        },
+        enterCursor(el,done) {
+            let delay = 2
+            TweenLite.from(el, 0.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    // done()
+                }
+            });
+            
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.3),
+                scale:0,
+                onComplete: ()=>{
+                    done()
+                }
+            });
+        },
+        enterTime(el,done) {
+            let delay = 2.25
+            TweenLite.from(el, 0.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    // done()
+                }
+            });
         }
     },
     watch: {

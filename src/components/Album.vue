@@ -1,14 +1,22 @@
 <template>
+<transition appear v-on:enter="enter">
     <!-- <router-link :to="{ name: 'Player', params: { id: album.id,data: data }}" :class="['album']" :style="translation" ref="album"> -->
-            <div @click="nav({ name: 'Player', params: { id: album.id,data: data }},$refs.cover)" :class="['album']" :style="translation" ref="album">
-                <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="" ref="cover">
-                <div class="meta">
-                    <div class="name" :style="name">{{album.name}}</div>
-                    <div class="artist" :style="artist">{{album.artistName}}</div>
-                    <div class="tracks" :style="tracks">{{album.trackCount}} tracks</div>
-                </div>
-            </div>
+    <div @click="nav({ name: 'Player', params: { id: album.id,data: data }},$refs.cover)" :class="['album']" ref="album">
+        <img class="cover" v-if="covers[0]" :src="covers[0].url" alt="" ref="cover">
+        <div class="meta">
+            <transition appear v-on:enter="enterMeta">
+                <div class="name">{{album.name}}</div>
+            </transition>
+            <transition appear v-on:enter="enterMeta">
+                <div class="artist">{{album.artistName}}</div>
+            </transition>
+            <transition appear v-on:enter="enterOpacity">
+                <div class="tracks">{{album.trackCount}} tracks</div>
+            </transition>
+        </div>
+    </div>
     <!-- </router-link> -->
+</transition>
 </template>
 
 <script>
@@ -25,23 +33,78 @@ export default {
     },
     data() {
         return {
-            covers: [],
-            deltaY: 0,
-            appearY: -250,
-            opacity: 0,
-            nameY: 16,
-            nameOpacity: 0,
-            artistY: 16,
-            artistOpacity: 0,
-            tracksOpacity: 0
+            covers: []
         }
     },
     methods: {
-        nav(args,el) {
-            TweenLite.to(el,0.5, {ease: Power3.easeOut,scale:0.2,onComplete: ()=>{
-                this.$router.push(args)
-            }})
+        enter(el,done) {
+            let delay = 1 + (this.album.index*0.1)
             
+            TweenLite.from(el, 1.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    // done()
+                }
+            });
+
+            TweenLite.from(el, 1, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.5),
+                y:250,
+                onComplete: ()=> {
+                    done()
+                }
+            });
+        },
+        enterMeta(el,done) {
+            let delay = 1.5 + (this.album.index*0.1)
+
+            TweenLite.from(el, 1, {
+                delay: delay,
+                ease: Elastic.easeOut.config(1, 0.5),
+                y:16,
+                onComplete: ()=> {
+                    // done()
+                }
+            });
+
+            TweenLite.from(el, 0.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    done()
+                }
+            });
+        },
+        enterOpacity(el,done) {
+            let delay= 1.75;
+            TweenLite.from(el, 0.5, {
+                delay: delay,
+                ease: Power3.easeOut,
+                opacity:0,
+                onComplete: ()=>{
+                    done()
+                }
+            });
+        },
+        nav(args, el) {
+            TweenLite.to(el, 0.25, {
+                ease: Power3.easeOut,
+                scale: 0.5,
+                onComplete: () => {
+                    this.$router.push(args)
+                }
+            })
+
+            TweenLite.to(el, 0.25, {
+                delay: 0,
+                ease: Power3.easeOut,
+                opacity: 0
+            });
+
         },
         fetchCover(url) {
             fetch(url + '?apikey=ZmE2NmVjYjMtMThhYi00ZjZiLWFlOWMtYjQ5MGVjYzk4ZWZk')
@@ -76,79 +139,15 @@ export default {
         scrollAmount() {
             return this.$store.getters.scrollAmount
         },
-        translation() {
-            return {
-                transform: `translateY(${this.deltaY-this.appearY}px)`,
-                opacity: this.opacity
-            }
-        },
         data() {
             return {
                 covers: this.covers,
                 title: this.album.name,
                 artist: this.album.artistName
             }
-        },
-        name() {
-            return {
-                transform: `translateY(${this.nameY}px)`,
-                opacity: this.nameOpacity
-            }
-        },
-        artist() {
-            return {
-                transform: `translateY(${this.artistY}px)`,
-                opacity: this.artistOpacity
-            }
-        },
-        tracks() {
-            return {
-                opacity: this.tracksOpacity
-            }
         }
     },
     mounted() {
-        TweenLite.to(this, 1.5, {
-            ease: Elastic.easeOut.config(1, 0.5),
-            delay: 1 + this.album.index / 10,
-            appearY: 0,
-        });
-
-        TweenLite.to(this, 0, {
-            ease: Power3.easeOut,
-            delay: 1 + this.album.index / 10,
-            opacity: 1
-        });
-
-        TweenLite.to(this, 1.5, {
-            ease: Elastic.easeOut.config(1.2, 0.3),
-            delay: 1 + this.album.index / 10,
-            nameY: 0,
-        });
-
-        TweenLite.to(this, 1.5, {
-            ease: Power3.easeOut,
-            delay: 1 + this.album.index / 10,
-            nameOpacity: 1,
-        });
-
-        TweenLite.to(this, 1.5, {
-            ease: Elastic.easeOut.config(1.2, 0.3),
-            delay: 1.25 + this.album.index / 10,
-            artistY: 0,
-        });
-
-        TweenLite.to(this, 1.5, {
-            ease: Power3.easeOut,
-            delay: 1.25 + this.album.index / 10,
-            artistOpacity: 1,
-        });
-
-        TweenLite.to(this, 1.5, {
-            ease: Power3.easeOut,
-            delay: 1.25 + this.album.index / 10,
-            tracksOpacity: 1,
-        });
     },
     created() {
         this.fetchCover(this.album.links.images.href)

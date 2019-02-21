@@ -1,11 +1,10 @@
 <template>
-        <transition v-on:enter="enter" appear>
+    <transition v-on:enter="enter" appear>
         <div :class="['btn',isPlayButton ? 'playpause' : '']" @click="onClick">
                 <transition v-on:enter="enterBorder" appear>
             <div class="border"></div>
             </transition>
-            <div class="background"></div>
-            
+            <div class="background" ref="background"></div>
                 <div class="icon">
                     <transition v-on:enter="enterIcon" appear>
                     <img :src="icon" alt="">
@@ -35,50 +34,45 @@ export default {
     methods: {
         onClick() {
             this.$emit('triggered')
+            
+            TweenLite.from(this.$refs.background, 1.5, {
+                delay: 0,
+                ease: Elastic.easeOut.config(1, 0.3),
+                scale:1.2
+            })
         },
         enter(el,done) {
             let delay = 0.75 + (0.1*this.index)
-            TweenLite.to(el, 0, {
-                delay: 0,
-                ease: Elastic.easeOut.config(1, 0.3),
-                opacity:0,
-            });
-            TweenLite.to(el, 0.5, {
+            
+            TweenLite.from(el, 1.5, {
                 delay: delay,
                 ease: Power3.easeOut,
-                opacity:1,
-                onComplete: ()=> {
+                opacity:0,
+                onComplete: ()=>{
                     done()
                 }
             });
         },
         enterIcon(el,done) {
             let delay = 1 + (0.1*this.index)
-            TweenLite.to(el, 0, {
-                delay: 0,
-                ease: Elastic.easeOut.config(1, 0.3),
-                scale:0
-            });
-            TweenLite.to(el, 1.5, {
+
+            TweenLite.from(el, 1.5, {
                 delay: delay,
                 ease: Elastic.easeOut.config(1, 0.3),
-                scale:1,
+                scale:0,
                 onComplete: ()=> {
                     done()
                 }
             });
+
         },
         enterBorder(el,done) {
             let delay = 0.75 + (0.1*this.index)
-            TweenLite.to(el, 0, {
-                delay: 0,
-                ease: Elastic.easeOut.config(1, 0.3),
-                scale:0.2
-            });
-            TweenLite.to(el, 1.5, {
+
+            TweenLite.from(el, 1.5, {
                 delay: delay,
                 ease: Elastic.easeOut.config(1, 0.3),
-                scale:1.15,
+                scale:0,
                 onComplete: ()=> {
                     done()
                 }
@@ -106,12 +100,20 @@ export default {
             }
         }
 
+
         &.playpause {
+            &:not(.isPlaying) {
+                img {
+                    position: relative;
+                    left:1px;
+                }
+            }
             width: 56px;
             height: 56px;
             >.icon {
                 img {
                     height: 40%;
+                    
                 }
             }
         }

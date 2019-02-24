@@ -16,6 +16,10 @@ export default {
     },
     methods: {
         toggleAudio() {
+            if(this.$store.getters.player.playingAlbum !== this.$route.params.id || this.$store.getters.playingTrack === undefined) {
+                this.$store.commit('setPlayingAlbum',this.$route.params.id)
+                this.$store.commit('setPlayingTrack',0)
+            }
             this.$store.commit('toggleIsPlaying')
         },
         track(value) {

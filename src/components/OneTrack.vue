@@ -29,6 +29,7 @@ export default {
         setPlayingTrack(index) {
             this.$store.commit('setIsPlaying',true)
             this.$store.commit('setPlayingTrack',index)
+            this.$store.commit('setPlayingAlbum',this.$route.params.id)
             
         },
         enter(el, done) {
@@ -63,7 +64,7 @@ export default {
     },
     computed: {
         isPlayingTrack() {
-            return Boolean(this.track.index-1 === this.$store.getters.playingTrack)
+            return Boolean(this.track.index-1 === this.$store.getters.playingTrack && this.track.albumId === this.$store.state.player.playingAlbum)
         },
         playerScroll() {
             return this.$store.getters.playerScroll

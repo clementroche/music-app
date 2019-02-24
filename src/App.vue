@@ -2,7 +2,9 @@
 <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <div id="menu" :style="menu">
-        <img src="./assets/icons/menu.svg" alt="">
+        <router-link to="/">
+            <img src="./assets/icons/menu.svg" alt="">
+        </router-link>
         <img src="./assets/icons/search.svg" alt="">
     </div>
         <router-view />

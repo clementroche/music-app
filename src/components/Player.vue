@@ -1,9 +1,9 @@
 <template>
-    <div id="player">
-        <top-player id="top"></top-player>
-        <bottom-player id="bottom"></bottom-player>
-        <!-- <minified-player class="mini"></minified-player> -->
-    </div>
+<div id="player">
+    <top-player id="top"></top-player>
+    <bottom-player id="bottom"></bottom-player>
+    <!-- <minified-player class="mini"></minified-player> -->
+</div>
 </template>
 
 <script>
@@ -18,12 +18,22 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('fetchAlbumData',this.$route.params.id)
-        this.$store.dispatch('fetchAlbumTracks',this.$route.params.id)
+        this.$store.dispatch('fetchAlbumData', this.$route.params.id)
+        this.$store.dispatch('fetchAlbumTracks', this.$route.params.id)
+
         // this.$store.commit('setPlayingTrack',0)
-        
+
     },
     mounted() {
+        if (this.$store.getters.playingTrack === undefined) {
+            // this.$store.commit('setPlayingTrack', 0)
+        }
+
+        if (this.$store.getters.playingAlbum === undefined) {
+            this.$store.commit('setPlayingAlbum', this.$route.params.id)
+        }
+
+        // this.$store.commit('playerScroll',0)
         // this.$store.commit('setIsPlaying',false)
         // this.$store.commit('setCurrentTime',0)
     },
@@ -34,9 +44,9 @@ export default {
 
     },
     beforeDestroy() {
-                if(this.audio!= undefined) {
-                    this.audio.pause()
-                }
+        if (this.audio != undefined) {
+            this.audio.pause()
+        }
     },
     watch: {
 
@@ -53,19 +63,18 @@ export default {
 @import '../assets/fonts.scss';
 @import '../assets/vars.scss';
 
-    #player{
-        height: calc(100% - 52px);
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
+#player {
+    height: calc(100% - 52px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 
-    #top {
-        position: relative;
-    }
+#top {
+    position: relative;
+}
 
-    #bottom {
-        position: relative;
-    }
-    
+#bottom {
+    position: relative;
+}
 </style>

@@ -17,6 +17,7 @@ export default new Vuex.Store({
             albumsLength: 0,
             maxScroll: 0,
             player: {
+                playingAlbum: undefined,
                 current: {
                     name: null,
                     artistName: null,
@@ -28,7 +29,7 @@ export default new Vuex.Store({
                 },
                 scroll:0,
                 currentTracks: [],
-                playingTrack: 0,
+                playingTrack: undefined,
                 isPlaying: false,
                 currentTime: 0,
                 currentTimeFromSlider: 0,
@@ -94,6 +95,9 @@ export default new Vuex.Store({
             },
             playerMaxScroll(state) {
                 return state.player.maxScroll
+            },
+            playingAlbum(state) {
+                return state.player.playingAlbum
             }
         },
         mutations: {
@@ -149,6 +153,9 @@ export default new Vuex.Store({
             },
             setCovers(state,covers) {
                 state.player.covers = covers
+            },
+            setPlayingAlbum(state,id) {
+                state.player.playingAlbum = id
             },
             FETCH_ALBUMS(state, albums) {
                 let orderedAlbums = {}

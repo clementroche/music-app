@@ -67,29 +67,7 @@ export default {
         }
     },
     mounted() {
-        TweenLite.to(this, 1.5, {
-            ease: Elastic.easeOut.config(1.2, 0.3),
-            delay: 0.75,
-            titleY: 0,
-        });
 
-        TweenLite.to(this, 1.5, {
-            ease: Power3.easeOut,
-            delay: 0.75,
-            titleOpacity: 1,
-        });
-
-        TweenLite.to(this, 1.5, {
-            ease: Elastic.easeOut.config(1.2, 0.3),
-            delay: 1,
-            subtitleY: 0,
-        });
-
-        TweenLite.to(this, 1.5, {
-            ease: Power3.easeOut,
-            delay: 1,
-            subtitleOpacity: 1,
-        });
     },
     computed: {
         currentLetter() {

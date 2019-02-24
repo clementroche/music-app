@@ -1,18 +1,18 @@
 <template>
 <transition v-on:enter="enter" v-on:leave="leave">
-    <div id="mini" v-if="(playerScroll < -maxScroll+200 && !maxScroll == 0) || ($router.currentRoute.name === 'Libray' && currentTrackName !== '') ">
+    <div id="mini" v-if="((playerScroll < -maxScroll+200 && !maxScroll == 0) || ($route.name == 'Library' && playingTrack != undefined) && playingTrack !== undefined) ">
         <div class="slider" :style="slider"></div>
         <div class="container">
             <div class="info">
                 <div class="cover">
-                    <img :src="player.covers[1].url" alt="">
+                    <img :src="utils.cover" alt="">
                 </div>
                     <div class="meta">
                         <div>
-                            <div class="album">{{player.current.name}}</div>
-                            <div class="artist">{{player.current.artistName}}</div>
+                            <div class="album">{{utils.name}}</div>
+                            <div class="artist">{{utils.artistName}}</div>
                         </div>
-                        <div class="playing">Now Playing ● <span>{{currentTrackName}}</span></div>
+                        <div class="playing">Now Playing ● <span>{{utils.currentTrackName}}</span></div>
                     </div>
                 </div>
                 <div class="actions">
@@ -33,9 +33,17 @@ function map_range(value, low1, high1, low2, high2) {
 export default {
     data() {
         return {
-            currentTrackName: '',
+            // currentTrackName: '',
             audio:undefined,
-            currentPlaying: undefined
+            currentPlaying: undefined,
+            utils: {
+                cover: undefined,
+                name: undefined,
+                artistName: undefined,
+                currentTrackName: undefined,
+                tracks: []
+            }
+            // cover: undefined
         }
     },
     methods: {
@@ -86,6 +94,9 @@ export default {
         player() {
             return this.$store.getters.player
         },
+        cover() {
+            return this.$store.state.player.covers[1]
+        },
         playingTrack() {
             return this.$store.getters.playingTrack
         },
@@ -104,8 +115,8 @@ export default {
             return this.$store.getters.playerMaxScroll
         },
         currentTrackURL() {
-            if(this.$store.state.player.currentTracks[this.playingTrack]) {
-                return this.$store.state.player.currentTracks[this.playingTrack].previewURL
+            if(this.utils.tracks[this.playingTrack]) {
+                return this.utils.tracks[this.playingTrack].previewURL
             } else {
                 return null
             }
@@ -114,17 +125,43 @@ export default {
         isPlaying() {
             return this.$store.getters.isPlaying
         },
-        // playingTrack() {
-        //     return this.$store.state.player.playingTrack-1
-        // },
+        currentTracks() {
+            return this.$store.getters.currentTracks
+        },
         currentTimeFromSlider() {
             return this.$store.getters.currentTimeFromSlider
+        },
+        currentTrackName() {
+            if(this.utils.tracks[this.playingTrack]) {
+                return this.utils.tracks[this.playingTrack].name
+            }
+        },
+        playingAlbum() {
+            return this.$store.getters.playingAlbum
         }
 
     },
     watch: {
+        playingAlbum(oldValue,newValue) {
+            setTimeout(()=>{
+                this.utils.tracks = this.currentTracks
+                this.utils.name = this.player.current.name
+                this.utils.artistName = this.player.current.artistName
+                this.utils.currentTrackName = this.currentTrackName
+                
+                console.log(this.utils)
+            },0)
+
+            setTimeout(()=>{
+                this.utils.cover = this.cover.url
+            },250)
+
+        },
         playingTrack() {
-            this.currentTrackName = this.player.currentTracks[this.playingTrack].name
+            if(this.utils.tracks[this.playingTrack]) {
+                this.utils.currentTrackName = this.utils.tracks[this.playingTrack].name
+            }
+            // this.currentTrackName = this.player.currentTracks[this.playingTrack].name
         },
         currentTrackURL() {
             if(this.isPlaying === true) {
@@ -146,13 +183,7 @@ export default {
         }
     },
     mounted() {
-        // console.log(this.$router.currentRoute)
         this.$store.commit('setIsPlaying',false)
-        setTimeout(() => {
-            if(this.player.currentTracks[this.playingTrack]) {
-                this.currentTrackName = this.player.currentTracks[this.playingTrack].name
-            }
-        }, 500)
 
     },
     components: {

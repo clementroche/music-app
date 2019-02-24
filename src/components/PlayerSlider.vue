@@ -10,7 +10,9 @@
                     <div class="inner"></div>
                 </div>
             </transition>
-            <div class="fill" :style="fill"></div>
+            <transition v-on:enter="enterTime" appear>
+                <div class="fill" :style="fill"></div>
+            </transition>
         </div>
         <transition v-on:enter="enterTime" appear>
             <div class="time">

@@ -148,22 +148,20 @@ export default {
                 this.utils.name = this.player.current.name
                 this.utils.artistName = this.player.current.artistName
                 this.utils.currentTrackName = this.currentTrackName
-                
-                console.log(this.utils)
-            },0)
+            },250)
 
             setTimeout(()=>{
                 this.utils.cover = this.cover.url
-            },250)
+            },500)
 
         },
         playingTrack() {
             if(this.utils.tracks[this.playingTrack]) {
                 this.utils.currentTrackName = this.utils.tracks[this.playingTrack].name
             }
-            // this.currentTrackName = this.player.currentTracks[this.playingTrack].name
         },
         currentTrackURL() {
+            console.log('ok')
             if(this.isPlaying === true) {
                 this.audioPlay()
             }

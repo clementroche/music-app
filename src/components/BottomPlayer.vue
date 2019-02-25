@@ -27,12 +27,11 @@ export default {
         TracksList
     },
     mounted() {
-        document.addEventListener('wheel', (e) => {
-            // if(this.$refs.list) {
+        setTimeout(()=>{
+            document.addEventListener('wheel', (e) => {
                 this.onScroll(e.deltaY)
-            // }
-            
-        })
+            })
+        },500)
     },
     computed: {
         playerScroll() {

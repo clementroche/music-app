@@ -27,9 +27,9 @@ export default {
     },
     methods: {
         setPlayingTrack(index) {
+            this.$store.commit('setPlayingAlbum',this.$route.params.id)
             this.$store.commit('setIsPlaying',true)
             this.$store.commit('setPlayingTrack',index)
-            this.$store.commit('setPlayingAlbum',this.$route.params.id)
             
         },
         enter(el, done) {

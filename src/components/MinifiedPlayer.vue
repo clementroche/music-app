@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             // currentTrackName: '',
-            audio:undefined,
+            audio: undefined,
             currentPlaying: undefined,
             utils: {
                 cover: undefined,
@@ -65,29 +65,28 @@ export default {
                 }
             });
         },
-        audioPlay() {
-                if(this.audio!= undefined) {
-                    this.audio.pause()
-                }
-                if(this.currentPlaying !== this.playingTrack) {
-                    this.audio = new Audio(this.currentTrackURL)
-                    this.audio.addEventListener("timeupdate", ()=>{
-                        this.$store.commit('setCurrentTime',this.audio.currentTime)
-                    });
-                    this.audio.addEventListener("ended", ()=>{
-                        this.$store.commit('updateTrack',1)
-                    });
-                    this.currentPlaying = this.playingTrack
-                }
+        audioPlay(boolean = false) {
+            if (this.audio != undefined) {
+                this.audio.pause()
+            }
+            if (this.currentPlaying !== this.playingTrack || boolean) {
+                this.audio = new Audio(this.currentTrackURL)
+                this.audio.addEventListener("timeupdate", () => {
+                    this.$store.commit('setCurrentTime', this.audio.currentTime)
+                });
+                this.audio.addEventListener("ended", () => {
+                    this.$store.commit('updateTrack', 1)
+                });
+                this.currentPlaying = this.playingTrack
+            }
 
+            this.audio.play()
 
-                this.audio.play()
-                
-            },
+        },
         audioPause() {
-                if(this.audio!= undefined) {
-                    this.audio.pause()
-                }
+            if (this.audio != undefined) {
+                this.audio.pause()
+            }
         }
     },
     computed: {
@@ -115,12 +114,12 @@ export default {
             return this.$store.getters.playerMaxScroll
         },
         currentTrackURL() {
-            if(this.utils.tracks[this.playingTrack]) {
+            if (this.utils.tracks[this.playingTrack]) {
                 return this.utils.tracks[this.playingTrack].previewURL
             } else {
                 return null
             }
-            
+
         },
         isPlaying() {
             return this.$store.getters.isPlaying
@@ -132,7 +131,7 @@ export default {
             return this.$store.getters.currentTimeFromSlider
         },
         currentTrackName() {
-            if(this.utils.tracks[this.playingTrack]) {
+            if (this.utils.tracks[this.playingTrack]) {
                 return this.utils.tracks[this.playingTrack].name
             }
         },
@@ -142,46 +141,54 @@ export default {
 
     },
     watch: {
-        playingAlbum(oldValue,newValue) {
-            setTimeout(()=>{
+        playingAlbum(newValue, oldValue) {
+            if (oldValue === undefined) {
+                setTimeout(() => {
+                    this.utils.tracks = this.currentTracks
+                    this.utils.name = this.player.current.name
+                    this.utils.artistName = this.player.current.artistName
+                    this.utils.currentTrackName = this.currentTrackName
+                }, 250)
+            } else {
                 this.utils.tracks = this.currentTracks
                 this.utils.name = this.player.current.name
                 this.utils.artistName = this.player.current.artistName
                 this.utils.currentTrackName = this.currentTrackName
-            },250)
+            }
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.utils.cover = this.cover.url
-            },500)
+            }, 500)
 
         },
         playingTrack() {
-            if(this.utils.tracks[this.playingTrack]) {
+            if (this.utils.tracks[this.playingTrack]) {
                 this.utils.currentTrackName = this.utils.tracks[this.playingTrack].name
             }
         },
         currentTrackURL() {
-            console.log('ok')
-            if(this.isPlaying === true) {
-                this.audioPlay()
+
+            if (this.isPlaying === true) {
+                console.log('changed', this.currentTrackURL)
+                this.audioPlay(true)
             }
         },
         isPlaying() {
-            if(this.isPlaying === true) {
+            if (this.isPlaying === true) {
                 this.audioPlay()
             } else {
                 this.audioPause()
             }
         },
         currentTimeFromSlider() {
-            if(this.audio) {
+            if (this.audio) {
                 this.audio.currentTime = this.currentTimeFromSlider
             }
-            
+
         }
     },
     mounted() {
-        this.$store.commit('setIsPlaying',false)
+        this.$store.commit('setIsPlaying', false)
 
     },
     components: {

@@ -31,7 +31,7 @@ export default {
             document.addEventListener('wheel', (e) => {
                 this.onScroll(e.deltaY)
             })
-        },500)
+        },1000)
     },
     computed: {
         playerScroll() {

@@ -169,7 +169,6 @@ export default {
         currentTrackURL() {
 
             if (this.isPlaying === true) {
-                console.log('changed', this.currentTrackURL)
                 this.audioPlay(true)
             }
         },

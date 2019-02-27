@@ -7,7 +7,8 @@
             <div class="background" ref="background"></div>
                 <div class="icon">
                     <transition v-on:enter="enterIcon" appear>
-                    <img :src="icon" alt="">
+                    <!-- <img :src="icon" alt=""> -->
+                    <slot></slot>
                     </transition>
                 </div>
             
@@ -21,10 +22,6 @@ export default {
         isPlayButton: {
             type: Boolean,
             required: false
-        },
-        icon: {
-            type: String,
-            required: true
         },
         index: {
             type: Number,
@@ -86,6 +83,10 @@ export default {
 @import '../assets/fonts.scss';
 @import '../assets/vars.scss';
 
+svg {
+    fill: #ffffff;
+}
+
     .btn {
         width: 38px;
         height: 38px;
@@ -111,9 +112,9 @@ export default {
             width: 56px;
             height: 56px;
             >.icon {
-                img {
+                img,svg {
                     height: 40%;
-                    
+                    z-index: 10;
                 }
             }
         }
@@ -143,7 +144,7 @@ export default {
             display: flex;
             height: 100%;
 
-            img {
+            img,svg {
                  z-index: 3;
                 margin: auto;
                 height: 25%;

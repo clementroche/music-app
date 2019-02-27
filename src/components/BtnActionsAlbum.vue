@@ -2,7 +2,8 @@
     <transition v-on:enter="enter" appear>
         <div class="btn">
             <div class="icon">
-                <img :src="icon" alt="">
+                <slot></slot>
+                <!-- <img :src="icon" alt=""> -->
             </div>
             <div class="wording">{{ wording }}</div>
         </div>
@@ -13,10 +14,6 @@
 
 export default {
     props: {
-        icon: {
-            type: String,
-            required: true,
-        },
         wording: {
             type: String,
             required: true
@@ -56,6 +53,8 @@ export default {
 @import '../assets/fonts.scss';
 @import '../assets/vars.scss';
 
+
+
     .btn {
         display: flex;
         flex-direction: column;
@@ -63,22 +62,26 @@ export default {
         justify-content: center;
         margin: 0 16px;
         width: 50px;
-        height: 32px;
+        height: 40px;
         cursor: pointer;
 
+
+
         &.scale {
-            img {
+            .icon {
+                transform-origin: center center;
                 transform: scale(1.75);
             }
         }
 
         .icon {
-            height: 16px;
+            height: 100%;
             width: 100%;
+            display: flex;
 
             img {
                 height: 100%;
-                width: 100%;
+                // width: 100%;
             }
         }
 

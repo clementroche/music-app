@@ -139,14 +139,19 @@ export default new Vuex.Store({
                 state.player.currentTimeFromSlider = time
             },
             updateTrack(state,value) {
-                if(state.player.playingTrack + value > state.player.currentTracks.length-1) {
-                    state.player.playingTrack = 1
-                } else if(state.player.playingTrack + value <= 0){
-                    // state.player.playingTrack = state.player.currentTracks.length-1
-                    state.player.playingTrack=1
+                if(state.player.playingTrack === undefined) {
+                    state.player.playingTrack = 0
                 } else {
-                    state.player.playingTrack += value
+                    if(state.player.playingTrack + value > state.player.currentTracks.length-1) {
+                        state.player.playingTrack = 1
+                    } else if(state.player.playingTrack + value <= 0){
+                        // state.player.playingTrack = state.player.currentTracks.length-1
+                        state.player.playingTrack=1
+                    } else {
+                        state.player.playingTrack += value
+                    }
                 }
+
             },
             setPlayerMaxScroll(state,max) {
                 state.player.maxScroll = max

@@ -53,28 +53,23 @@ export default {
         if(this.$refs.curve){
             this.$refs.curve.addEventListener('mousedown',(e)=>{
                 this.isDown=true
-                console.log('down')
             })
 
             this.$refs.curve.addEventListener('mousemove',(e)=>{
                 if(this.isDown){
-                    console.log('moove')
-                    this.changeLetter(e.offsetY-12)
+                    this.changeLetter(e.offsetY-32)
                     // this.movingDelta = e.offsetY
-                    console.log(this.deltaD)
                 }
             })
 
             this.$refs.curve.addEventListener('mouseup',(e)=>{
                 this.isDown=false
-                console.log('up')
                 this.movingDelta = 0
-                this.changeLetter(e.offsetY-12)
+                this.changeLetter(e.offsetY-32)
             })
 
             this.$refs.curve.addEventListener('click',(e)=>{
-                console.log('click')
-                this.changeLetter(e.offsetY-12)
+                this.changeLetter(e.offsetY-32)
             })
         }
 
@@ -82,7 +77,7 @@ export default {
                 ease: Power3.easeOut,
                 delay: 0.75,
                 opacity: 1,
-                
+
             });
 
             TweenLite.to(this, 1, {
@@ -165,7 +160,7 @@ export default {
         width: 24px;
         border-radius: 100%;
         background: linear-gradient(45deg, rgba($color: $primary-color, $alpha: 0.25), rgba($color: $secondary-color, $alpha: 0.25));
-        
+
         position: absolute;
         display: flex;
 

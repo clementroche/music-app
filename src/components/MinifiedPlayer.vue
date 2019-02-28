@@ -12,7 +12,7 @@
                             <div class="album">{{utils.name}}</div>
                             <div class="artist">{{utils.artistName}}</div>
                         </div>
-                        <div class="playing">Now Playing ● <span>{{utils.currentTrackName}}</span></div>
+                        <div class="playing" v-if="utils.currentTrackName != undefined">Now Playing ● <span>{{utils.currentTrackName}}</span></div>
                     </div>
                 </div>
                 <div class="actions">

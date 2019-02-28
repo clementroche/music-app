@@ -63,6 +63,10 @@ export default {
         line-height: 0.8rem;
         text-align: center;
 
+        &.none {
+          opacity: 0.5;
+        }
+
         &.active {
             // font-size: 1.25rem;
             // line-height: 1.25rem;

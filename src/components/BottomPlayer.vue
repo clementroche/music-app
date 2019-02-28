@@ -29,7 +29,7 @@ export default {
     mounted() {
         setTimeout(()=>{
             document.addEventListener('wheel', (e) => {
-                this.onScroll(e.deltaY)
+                this.onScroll(-e.deltaY)
             })
         },1000)
     },
@@ -54,7 +54,7 @@ export default {
     methods: {
         onScroll(deltaY) {
             if(this.$refs.tracks){
-                let maxScroll = Math.max(document.querySelector('#top').offsetHeight + 28,this.$refs.tracks.$el.offsetHeight) + 100 
+                let maxScroll = Math.max(document.querySelector('#top').offsetHeight + 28,this.$refs.tracks.$el.offsetHeight) + 100
                 this.$store.commit('setPlayerMaxScroll',maxScroll)
                 if(this.playerScroll +( Math.sign(deltaY)*50) >= -maxScroll) {
                     let amount = Math.min(this.playerScroll +( Math.sign(deltaY)*50),0)
@@ -67,7 +67,7 @@ export default {
         },
         enterH3(el, done) {
             let delay = 1
-            
+
             TweenLite.from(el, 1.5, {
                 delay: delay,
                 ease: Power3.easeOut,
@@ -88,7 +88,7 @@ export default {
         },
         enterSave(el, done) {
             let delay = 1.25
-            
+
             TweenLite.from(el, 1.5, {
                 delay: delay,
                 ease: Power3.easeOut,
@@ -134,12 +134,12 @@ export default {
         left: 0px;
         background: linear-gradient(0deg,#ffffff 98%,rgba(0,0,0,0.001));
     }
-    
+
     .head{
         display: flex;
         z-index: 3;
         position:relative;
-    
+
         h3 {
             font-family: $title-font;
             text-transform: uppercase;
@@ -158,7 +158,7 @@ export default {
             font-size: 0.8rem;
             display: flex;
             margin: 5px;
-            
+
             div {
                 margin: auto;
 

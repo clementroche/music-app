@@ -1,7 +1,7 @@
 <template>
 <div class="labels">
     <div v-for="(letter,index) in alphabet" :key="letter">
-        <letter-labels :letter="letter" :index="index" :active="index == currentLetter"></letter-labels>
+        <letter-labels :letter="letter" :index="index" :active="index == currentLetter" :class="letters.indexOf(letter) === -1 ? 'none' : ''"></letter-labels>
     </div>
 </div>
 </template>
@@ -13,6 +13,7 @@ export default {
     data() {
         return {
             alphabet: '#abcdefghijklmnopqrstuvwxyz'.split(''),
+            letters: []
             // right: 32,
             // opacity: 0
         }
@@ -21,9 +22,11 @@ export default {
         currentLetter() {
             return this.$store.getters.currentLetterAlphabetIndex
         },
-
     },
     mounted() {
+      setTimeout(()=>{
+        this.letters = Object.keys(this.$store.state.lettersOffset)
+      },500)
 
     },
     components: {

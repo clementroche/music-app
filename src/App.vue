@@ -1,4 +1,5 @@
 <template>
+<div class="body">
 <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <div id="menu" :style="menu">
@@ -47,11 +48,15 @@
     </div>
         <router-view />
     <minified-player id="mini"></minified-player>
+
+    </div>
+    <social></social>
     </div>
 </template>
 
 <script>
 import MinifiedPlayer from '@/components/MinifiedPlayer'
+import Social from '@/components/Social'
 import GSAP from "gsap/TweenMax"
 export default {
     name: 'App',
@@ -83,7 +88,8 @@ export default {
         }
     },
     components: {
-        MinifiedPlayer
+        MinifiedPlayer,
+        Social
     }
 }
 </script>
@@ -104,6 +110,13 @@ body {
     background: linear-gradient(45deg, $primary-color, $secondary-color);
 }
 
+.body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
 #menu {
     padding: 16px;
     display: flex;
@@ -118,6 +131,7 @@ body {
         height: 20px;
         fill: #84f4fb;
     }
+
 }
 
 #app {

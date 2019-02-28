@@ -148,6 +148,7 @@ export default {
     height: 100%;
     z-index: 5;
     overflow: hidden;
+    cursor: pointer;
     .container {
         position: absolute;
         right: 28px;

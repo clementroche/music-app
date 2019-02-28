@@ -113,6 +113,7 @@ export default {
     header {
         padding: 0px 16px 20px;
         text-align: center;
+        cursor: default;
 
         h1 {
             font-family: $title-font;

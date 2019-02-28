@@ -92,6 +92,7 @@ export default {
     height: calc(100% - 52px);
     display: flex;
     flex-direction: column;
+    cursor: default;
 
     header {
         padding: 0px 16px 8px;

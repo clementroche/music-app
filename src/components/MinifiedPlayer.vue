@@ -232,6 +232,7 @@ export default {
         .info {
             display: flex;
             width: 100%;
+            cursor: default;
 
             .cover {
                 height: 70px;

@@ -88,7 +88,7 @@ export default {
                     // done()
                 }
             });
-            
+
             TweenLite.from(el, 1.5, {
                 delay: delay,
                 ease: Elastic.easeOut.config(1, 0.3),
@@ -182,7 +182,8 @@ export default {
         color: $text-secondary-color;
         font-weight: 600;
         font-size: 0.8rem;
-        // padding-top: 12px; 
+        // padding-top: 12px;
+        cursor: default;
     }
 
     .container {
@@ -201,6 +202,7 @@ export default {
         width: 100%;
         top:14px;
         left: 0px;
+        cursor: pointer;
     }
 
     .fill {

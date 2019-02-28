@@ -139,6 +139,7 @@ export default {
         display: flex;
         z-index: 3;
         position:relative;
+        cursor: default;
 
         h3 {
             font-family: $title-font;
@@ -158,6 +159,7 @@ export default {
             font-size: 0.8rem;
             display: flex;
             margin: 5px;
+            cursor: pointer;
 
             div {
                 margin: auto;

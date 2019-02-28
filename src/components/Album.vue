@@ -40,7 +40,7 @@ export default {
     methods: {
         enter(el,done) {
             let delay = 1 + (this.album.index*0.1)
-            
+
             TweenLite.from(el, 1.5, {
                 delay: delay,
                 ease: Power3.easeOut,
@@ -170,6 +170,7 @@ export default {
     margin: 20px 0;
     z-index: 2;
     text-decoration: none;
+    cursor: pointer;
 
     .cover {
         height: 80px;

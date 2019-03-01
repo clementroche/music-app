@@ -1,6 +1,6 @@
 <template>
   <div id="social">
-    <div>Design by <a href="https://twitter.com/lucianoir_" target="_blank">Lucien Noir</a></div>
+    <div>Design by <a href="https://dribbble.com/lucianoir" target="_blank">Lucien Noir</a></div>
     <div>Code by <a href="https://twitter.com/clementroche_" target="_blank">Clément Roche</a></div>
     <div>Data provided by <a href="https://developer.napster.com/" target="_blank">Napster API</a></div>
   </div>
